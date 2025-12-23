@@ -9,7 +9,7 @@
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
     "target": "esnext",
-    "types": [],
+    "types": ["node", "express"],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
@@ -43,5 +43,6 @@
 
     // Imports
     "esModuleInterop": true
-  }
+  },
+  "include": ["src/**/*", "prisma.config.ts"]
 }
