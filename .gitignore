@@ -4,19 +4,25 @@
 # Contains all your dependencies
 node_modules
 
-# Replace as required with your build location
-/build
-
-# Deal with environment files
+# Environment variables
 .env
 .env.*
+!.env.example
 
-# Coverage directory used by testing tools
-coverage
+# Dependencies
+/node_modules
+
+# TypeScript build output
+/dist
+
+# OS generated files
+.DS_Store
+
+# Test coverage
+/coverage
 
 # Visual Studio Code configuration
 .vscode/
-
 
 # npm and yarn debug logs
 npm-debug.log*
