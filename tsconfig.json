@@ -19,7 +19,6 @@
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
@@ -44,5 +43,5 @@
     // Imports
     "esModuleInterop": true
   },
-  "include": ["src/**/*", "prisma.config.ts"]
+  "include": ["src/**/*"]
 }
