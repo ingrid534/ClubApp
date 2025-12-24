@@ -1,14 +1,14 @@
 {
-  "name": "mystery-proj",
+  "name": "club-app",
   "version": "1.0.0",
   "description": "",
-  "homepage": "https://github.com/ingrid534/mystery-proj#readme",
+  "homepage": "https://github.com/ingrid534/ClubApp#readme",
   "bugs": {
-    "url": "https://github.com/ingrid534/mystery-proj/issues"
+    "url": "https://github.com/ingrid534/ClubApp/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ingrid534/mystery-proj.git"
+    "url": "git+https://github.com/ingrid534/ClubApp.git"
   },
   "license": "ISC",
   "author": "",
@@ -32,6 +32,7 @@
     "prettier": "^3.7.4",
     "prisma": "^7.2.0",
     "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {
