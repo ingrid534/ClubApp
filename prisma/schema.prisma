@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client"
-  output = "../src/generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -14,53 +14,53 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  username String @unique
-  passwordHash String
+  id             Int             @id @default(autoincrement())
+  username       String          @unique
+  passwordHash   String
   followingClubs ClubFollowing[]
   organizedClubs Club[]
 }
 
 model Club {
-  id Int @id @default(autoincrement())
-  name String @unique
-  followers ClubFollowing[]
-  organizer User @relation(fields: [organizerId], references: [id])
+  id          Int              @id @default(autoincrement())
+  name        String           @unique
+  followers   ClubFollowing[]
+  organizer   User             @relation(fields: [organizerId], references: [id])
   organizerId Int
-  events Event[]
-  categories ClubCategories[]
-  registered Boolean @default(false)
+  events      Event[]
+  categories  ClubCategories[]
+  registered  Boolean          @default(false)
 }
 
 model Event {
-  id Int @id @default(autoincrement())
-  name String
+  id       Int      @id @default(autoincrement())
+  name     String
   location String
-  time DateTime
-  clubId Int
-  club Club @relation(fields: [clubId], references: [id])
+  time     DateTime
+  clubId   Int
+  club     Club     @relation(fields: [clubId], references: [id])
 }
 
 model Category {
-  id Int @id @default(autoincrement())
-  name String @unique
+  id    Int              @id @default(autoincrement())
+  name  String           @unique
   clubs ClubCategories[]
 }
 
 model ClubFollowing {
   userId Int
   clubId Int
-  user User @relation(fields: [userId], references: [id])
-  club Club @relation(fields: [clubId], references: [id])
+  user   User @relation(fields: [userId], references: [id])
+  club   Club @relation(fields: [clubId], references: [id])
 
-  @@id ([userId, clubId])
+  @@id([userId, clubId])
 }
 
 model ClubCategories {
-  clubId Int
+  clubId     Int
   categoryId Int
-  club Club @relation(fields: [clubId], references: [id])
-  category Category @relation(fields: [categoryId], references: [id])
+  club       Club     @relation(fields: [clubId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
 
-  @@id ([clubId, categoryId])
+  @@id([clubId, categoryId])
 }
