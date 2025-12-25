@@ -1,1 +1,1 @@
-# mystery-proj
+# UofT Club App
