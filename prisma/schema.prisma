@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -14,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id             Int             @id @default(autoincrement())
+  id             String          @id @default(uuid())
   username       String          @unique
   passwordHash   String
   followingClubs ClubFollowing[]
@@ -22,43 +16,43 @@ model User {
 }
 
 model Club {
-  id          Int              @id @default(autoincrement())
+  id          String           @id @default(uuid())
   name        String           @unique
   followers   ClubFollowing[]
   organizer   User             @relation(fields: [organizerId], references: [id])
-  organizerId Int
+  organizerId String
   events      Event[]
   categories  ClubCategories[]
   registered  Boolean          @default(false)
 }
 
 model Event {
-  id       Int      @id @default(autoincrement())
+  id       String   @id @default(uuid())
   name     String
   location String
   time     DateTime
-  clubId   Int
+  clubId   String
   club     Club     @relation(fields: [clubId], references: [id])
 }
 
 model Category {
-  id    Int              @id @default(autoincrement())
+  id    String           @id @default(uuid())
   name  String           @unique
   clubs ClubCategories[]
 }
 
 model ClubFollowing {
-  userId Int
-  clubId Int
-  user   User @relation(fields: [userId], references: [id])
-  club   Club @relation(fields: [clubId], references: [id])
+  userId String
+  clubId String
+  user   User   @relation(fields: [userId], references: [id])
+  club   Club   @relation(fields: [clubId], references: [id])
 
   @@id([userId, clubId])
 }
 
 model ClubCategories {
-  clubId     Int
-  categoryId Int
+  clubId     String
+  categoryId String
   club       Club     @relation(fields: [clubId], references: [id])
   category   Category @relation(fields: [categoryId], references: [id])
 

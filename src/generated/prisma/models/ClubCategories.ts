@@ -20,30 +20,18 @@ export type ClubCategoriesModel = runtime.Types.Result.DefaultSelection<Prisma.$
 
 export type AggregateClubCategories = {
   _count: ClubCategoriesCountAggregateOutputType | null
-  _avg: ClubCategoriesAvgAggregateOutputType | null
-  _sum: ClubCategoriesSumAggregateOutputType | null
   _min: ClubCategoriesMinAggregateOutputType | null
   _max: ClubCategoriesMaxAggregateOutputType | null
 }
 
-export type ClubCategoriesAvgAggregateOutputType = {
-  clubId: number | null
-  categoryId: number | null
-}
-
-export type ClubCategoriesSumAggregateOutputType = {
-  clubId: number | null
-  categoryId: number | null
-}
-
 export type ClubCategoriesMinAggregateOutputType = {
-  clubId: number | null
-  categoryId: number | null
+  clubId: string | null
+  categoryId: string | null
 }
 
 export type ClubCategoriesMaxAggregateOutputType = {
-  clubId: number | null
-  categoryId: number | null
+  clubId: string | null
+  categoryId: string | null
 }
 
 export type ClubCategoriesCountAggregateOutputType = {
@@ -52,16 +40,6 @@ export type ClubCategoriesCountAggregateOutputType = {
   _all: number
 }
 
-
-export type ClubCategoriesAvgAggregateInputType = {
-  clubId?: true
-  categoryId?: true
-}
-
-export type ClubCategoriesSumAggregateInputType = {
-  clubId?: true
-  categoryId?: true
-}
 
 export type ClubCategoriesMinAggregateInputType = {
   clubId?: true
@@ -117,18 +95,6 @@ export type ClubCategoriesAggregateArgs<ExtArgs extends runtime.Types.Extensions
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: ClubCategoriesAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: ClubCategoriesSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: ClubCategoriesMinAggregateInputType
@@ -159,18 +125,14 @@ export type ClubCategoriesGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   _count?: ClubCategoriesCountAggregateInputType | true
-  _avg?: ClubCategoriesAvgAggregateInputType
-  _sum?: ClubCategoriesSumAggregateInputType
   _min?: ClubCategoriesMinAggregateInputType
   _max?: ClubCategoriesMaxAggregateInputType
 }
 
 export type ClubCategoriesGroupByOutputType = {
-  clubId: number
-  categoryId: number
+  clubId: string
+  categoryId: string
   _count: ClubCategoriesCountAggregateOutputType | null
-  _avg: ClubCategoriesAvgAggregateOutputType | null
-  _sum: ClubCategoriesSumAggregateOutputType | null
   _min: ClubCategoriesMinAggregateOutputType | null
   _max: ClubCategoriesMaxAggregateOutputType | null
 }
@@ -194,8 +156,8 @@ export type ClubCategoriesWhereInput = {
   AND?: Prisma.ClubCategoriesWhereInput | Prisma.ClubCategoriesWhereInput[]
   OR?: Prisma.ClubCategoriesWhereInput[]
   NOT?: Prisma.ClubCategoriesWhereInput | Prisma.ClubCategoriesWhereInput[]
-  clubId?: Prisma.IntFilter<"ClubCategories"> | number
-  categoryId?: Prisma.IntFilter<"ClubCategories"> | number
+  clubId?: Prisma.StringFilter<"ClubCategories"> | string
+  categoryId?: Prisma.StringFilter<"ClubCategories"> | string
   club?: Prisma.XOR<Prisma.ClubScalarRelationFilter, Prisma.ClubWhereInput>
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
 }
@@ -212,8 +174,8 @@ export type ClubCategoriesWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ClubCategoriesWhereInput | Prisma.ClubCategoriesWhereInput[]
   OR?: Prisma.ClubCategoriesWhereInput[]
   NOT?: Prisma.ClubCategoriesWhereInput | Prisma.ClubCategoriesWhereInput[]
-  clubId?: Prisma.IntFilter<"ClubCategories"> | number
-  categoryId?: Prisma.IntFilter<"ClubCategories"> | number
+  clubId?: Prisma.StringFilter<"ClubCategories"> | string
+  categoryId?: Prisma.StringFilter<"ClubCategories"> | string
   club?: Prisma.XOR<Prisma.ClubScalarRelationFilter, Prisma.ClubWhereInput>
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
 }, "clubId_categoryId">
@@ -222,18 +184,16 @@ export type ClubCategoriesOrderByWithAggregationInput = {
   clubId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   _count?: Prisma.ClubCategoriesCountOrderByAggregateInput
-  _avg?: Prisma.ClubCategoriesAvgOrderByAggregateInput
   _max?: Prisma.ClubCategoriesMaxOrderByAggregateInput
   _min?: Prisma.ClubCategoriesMinOrderByAggregateInput
-  _sum?: Prisma.ClubCategoriesSumOrderByAggregateInput
 }
 
 export type ClubCategoriesScalarWhereWithAggregatesInput = {
   AND?: Prisma.ClubCategoriesScalarWhereWithAggregatesInput | Prisma.ClubCategoriesScalarWhereWithAggregatesInput[]
   OR?: Prisma.ClubCategoriesScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ClubCategoriesScalarWhereWithAggregatesInput | Prisma.ClubCategoriesScalarWhereWithAggregatesInput[]
-  clubId?: Prisma.IntWithAggregatesFilter<"ClubCategories"> | number
-  categoryId?: Prisma.IntWithAggregatesFilter<"ClubCategories"> | number
+  clubId?: Prisma.StringWithAggregatesFilter<"ClubCategories"> | string
+  categoryId?: Prisma.StringWithAggregatesFilter<"ClubCategories"> | string
 }
 
 export type ClubCategoriesCreateInput = {
@@ -242,8 +202,8 @@ export type ClubCategoriesCreateInput = {
 }
 
 export type ClubCategoriesUncheckedCreateInput = {
-  clubId: number
-  categoryId: number
+  clubId: string
+  categoryId: string
 }
 
 export type ClubCategoriesUpdateInput = {
@@ -252,13 +212,13 @@ export type ClubCategoriesUpdateInput = {
 }
 
 export type ClubCategoriesUncheckedUpdateInput = {
-  clubId?: Prisma.IntFieldUpdateOperationsInput | number
-  categoryId?: Prisma.IntFieldUpdateOperationsInput | number
+  clubId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ClubCategoriesCreateManyInput = {
-  clubId: number
-  categoryId: number
+  clubId: string
+  categoryId: string
 }
 
 export type ClubCategoriesUpdateManyMutationInput = {
@@ -266,8 +226,8 @@ export type ClubCategoriesUpdateManyMutationInput = {
 }
 
 export type ClubCategoriesUncheckedUpdateManyInput = {
-  clubId?: Prisma.IntFieldUpdateOperationsInput | number
-  categoryId?: Prisma.IntFieldUpdateOperationsInput | number
+  clubId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ClubCategoriesListRelationFilter = {
@@ -281,16 +241,11 @@ export type ClubCategoriesOrderByRelationAggregateInput = {
 }
 
 export type ClubCategoriesClubIdCategoryIdCompoundUniqueInput = {
-  clubId: number
-  categoryId: number
+  clubId: string
+  categoryId: string
 }
 
 export type ClubCategoriesCountOrderByAggregateInput = {
-  clubId?: Prisma.SortOrder
-  categoryId?: Prisma.SortOrder
-}
-
-export type ClubCategoriesAvgOrderByAggregateInput = {
   clubId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
 }
@@ -301,11 +256,6 @@ export type ClubCategoriesMaxOrderByAggregateInput = {
 }
 
 export type ClubCategoriesMinOrderByAggregateInput = {
-  clubId?: Prisma.SortOrder
-  categoryId?: Prisma.SortOrder
-}
-
-export type ClubCategoriesSumOrderByAggregateInput = {
   clubId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
 }
@@ -399,7 +349,7 @@ export type ClubCategoriesCreateWithoutClubInput = {
 }
 
 export type ClubCategoriesUncheckedCreateWithoutClubInput = {
-  categoryId: number
+  categoryId: string
 }
 
 export type ClubCategoriesCreateOrConnectWithoutClubInput = {
@@ -432,8 +382,8 @@ export type ClubCategoriesScalarWhereInput = {
   AND?: Prisma.ClubCategoriesScalarWhereInput | Prisma.ClubCategoriesScalarWhereInput[]
   OR?: Prisma.ClubCategoriesScalarWhereInput[]
   NOT?: Prisma.ClubCategoriesScalarWhereInput | Prisma.ClubCategoriesScalarWhereInput[]
-  clubId?: Prisma.IntFilter<"ClubCategories"> | number
-  categoryId?: Prisma.IntFilter<"ClubCategories"> | number
+  clubId?: Prisma.StringFilter<"ClubCategories"> | string
+  categoryId?: Prisma.StringFilter<"ClubCategories"> | string
 }
 
 export type ClubCategoriesCreateWithoutCategoryInput = {
@@ -441,7 +391,7 @@ export type ClubCategoriesCreateWithoutCategoryInput = {
 }
 
 export type ClubCategoriesUncheckedCreateWithoutCategoryInput = {
-  clubId: number
+  clubId: string
 }
 
 export type ClubCategoriesCreateOrConnectWithoutCategoryInput = {
@@ -471,7 +421,7 @@ export type ClubCategoriesUpdateManyWithWhereWithoutCategoryInput = {
 }
 
 export type ClubCategoriesCreateManyClubInput = {
-  categoryId: number
+  categoryId: string
 }
 
 export type ClubCategoriesUpdateWithoutClubInput = {
@@ -479,15 +429,15 @@ export type ClubCategoriesUpdateWithoutClubInput = {
 }
 
 export type ClubCategoriesUncheckedUpdateWithoutClubInput = {
-  categoryId?: Prisma.IntFieldUpdateOperationsInput | number
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ClubCategoriesUncheckedUpdateManyWithoutClubInput = {
-  categoryId?: Prisma.IntFieldUpdateOperationsInput | number
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ClubCategoriesCreateManyCategoryInput = {
-  clubId: number
+  clubId: string
 }
 
 export type ClubCategoriesUpdateWithoutCategoryInput = {
@@ -495,11 +445,11 @@ export type ClubCategoriesUpdateWithoutCategoryInput = {
 }
 
 export type ClubCategoriesUncheckedUpdateWithoutCategoryInput = {
-  clubId?: Prisma.IntFieldUpdateOperationsInput | number
+  clubId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ClubCategoriesUncheckedUpdateManyWithoutCategoryInput = {
-  clubId?: Prisma.IntFieldUpdateOperationsInput | number
+  clubId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -551,8 +501,8 @@ export type $ClubCategoriesPayload<ExtArgs extends runtime.Types.Extensions.Inte
     category: Prisma.$CategoryPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    clubId: number
-    categoryId: number
+    clubId: string
+    categoryId: string
   }, ExtArgs["result"]["clubCategories"]>
   composites: {}
 }
@@ -978,8 +928,8 @@ export interface Prisma__ClubCategoriesClient<T, Null = never, ExtArgs extends r
  * Fields of the ClubCategories model
  */
 export interface ClubCategoriesFieldRefs {
-  readonly clubId: Prisma.FieldRef<"ClubCategories", 'Int'>
-  readonly categoryId: Prisma.FieldRef<"ClubCategories", 'Int'>
+  readonly clubId: Prisma.FieldRef<"ClubCategories", 'String'>
+  readonly categoryId: Prisma.FieldRef<"ClubCategories", 'String'>
 }
     
 
