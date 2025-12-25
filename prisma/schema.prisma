@@ -36,9 +36,10 @@ model Event {
 }
 
 model Category {
-  id    String           @id @default(uuid())
-  name  String           @unique
-  clubs ClubCategories[]
+  id          String           @id @default(uuid())
+  name        String           @unique
+  description String
+  clubs       ClubCategories[]
 }
 
 model ClubFollowing {
