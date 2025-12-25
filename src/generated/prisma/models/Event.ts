@@ -20,36 +20,24 @@ export type EventModel = runtime.Types.Result.DefaultSelection<Prisma.$EventPayl
 
 export type AggregateEvent = {
   _count: EventCountAggregateOutputType | null
-  _avg: EventAvgAggregateOutputType | null
-  _sum: EventSumAggregateOutputType | null
   _min: EventMinAggregateOutputType | null
   _max: EventMaxAggregateOutputType | null
 }
 
-export type EventAvgAggregateOutputType = {
-  id: number | null
-  clubId: number | null
-}
-
-export type EventSumAggregateOutputType = {
-  id: number | null
-  clubId: number | null
-}
-
 export type EventMinAggregateOutputType = {
-  id: number | null
+  id: string | null
   name: string | null
   location: string | null
   time: Date | null
-  clubId: number | null
+  clubId: string | null
 }
 
 export type EventMaxAggregateOutputType = {
-  id: number | null
+  id: string | null
   name: string | null
   location: string | null
   time: Date | null
-  clubId: number | null
+  clubId: string | null
 }
 
 export type EventCountAggregateOutputType = {
@@ -61,16 +49,6 @@ export type EventCountAggregateOutputType = {
   _all: number
 }
 
-
-export type EventAvgAggregateInputType = {
-  id?: true
-  clubId?: true
-}
-
-export type EventSumAggregateInputType = {
-  id?: true
-  clubId?: true
-}
 
 export type EventMinAggregateInputType = {
   id?: true
@@ -135,18 +113,6 @@ export type EventAggregateArgs<ExtArgs extends runtime.Types.Extensions.Internal
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: EventAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: EventSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: EventMinAggregateInputType
@@ -177,21 +143,17 @@ export type EventGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   _count?: EventCountAggregateInputType | true
-  _avg?: EventAvgAggregateInputType
-  _sum?: EventSumAggregateInputType
   _min?: EventMinAggregateInputType
   _max?: EventMaxAggregateInputType
 }
 
 export type EventGroupByOutputType = {
-  id: number
+  id: string
   name: string
   location: string
   time: Date
-  clubId: number
+  clubId: string
   _count: EventCountAggregateOutputType | null
-  _avg: EventAvgAggregateOutputType | null
-  _sum: EventSumAggregateOutputType | null
   _min: EventMinAggregateOutputType | null
   _max: EventMaxAggregateOutputType | null
 }
@@ -215,11 +177,11 @@ export type EventWhereInput = {
   AND?: Prisma.EventWhereInput | Prisma.EventWhereInput[]
   OR?: Prisma.EventWhereInput[]
   NOT?: Prisma.EventWhereInput | Prisma.EventWhereInput[]
-  id?: Prisma.IntFilter<"Event"> | number
+  id?: Prisma.StringFilter<"Event"> | string
   name?: Prisma.StringFilter<"Event"> | string
   location?: Prisma.StringFilter<"Event"> | string
   time?: Prisma.DateTimeFilter<"Event"> | Date | string
-  clubId?: Prisma.IntFilter<"Event"> | number
+  clubId?: Prisma.StringFilter<"Event"> | string
   club?: Prisma.XOR<Prisma.ClubScalarRelationFilter, Prisma.ClubWhereInput>
 }
 
@@ -233,14 +195,14 @@ export type EventOrderByWithRelationInput = {
 }
 
 export type EventWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  id?: string
   AND?: Prisma.EventWhereInput | Prisma.EventWhereInput[]
   OR?: Prisma.EventWhereInput[]
   NOT?: Prisma.EventWhereInput | Prisma.EventWhereInput[]
   name?: Prisma.StringFilter<"Event"> | string
   location?: Prisma.StringFilter<"Event"> | string
   time?: Prisma.DateTimeFilter<"Event"> | Date | string
-  clubId?: Prisma.IntFilter<"Event"> | number
+  clubId?: Prisma.StringFilter<"Event"> | string
   club?: Prisma.XOR<Prisma.ClubScalarRelationFilter, Prisma.ClubWhereInput>
 }, "id">
 
@@ -251,24 +213,23 @@ export type EventOrderByWithAggregationInput = {
   time?: Prisma.SortOrder
   clubId?: Prisma.SortOrder
   _count?: Prisma.EventCountOrderByAggregateInput
-  _avg?: Prisma.EventAvgOrderByAggregateInput
   _max?: Prisma.EventMaxOrderByAggregateInput
   _min?: Prisma.EventMinOrderByAggregateInput
-  _sum?: Prisma.EventSumOrderByAggregateInput
 }
 
 export type EventScalarWhereWithAggregatesInput = {
   AND?: Prisma.EventScalarWhereWithAggregatesInput | Prisma.EventScalarWhereWithAggregatesInput[]
   OR?: Prisma.EventScalarWhereWithAggregatesInput[]
   NOT?: Prisma.EventScalarWhereWithAggregatesInput | Prisma.EventScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"Event"> | number
+  id?: Prisma.StringWithAggregatesFilter<"Event"> | string
   name?: Prisma.StringWithAggregatesFilter<"Event"> | string
   location?: Prisma.StringWithAggregatesFilter<"Event"> | string
   time?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
-  clubId?: Prisma.IntWithAggregatesFilter<"Event"> | number
+  clubId?: Prisma.StringWithAggregatesFilter<"Event"> | string
 }
 
 export type EventCreateInput = {
+  id?: string
   name: string
   location: string
   time: Date | string
@@ -276,14 +237,15 @@ export type EventCreateInput = {
 }
 
 export type EventUncheckedCreateInput = {
-  id?: number
+  id?: string
   name: string
   location: string
   time: Date | string
-  clubId: number
+  clubId: string
 }
 
 export type EventUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -291,33 +253,34 @@ export type EventUpdateInput = {
 }
 
 export type EventUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  clubId?: Prisma.IntFieldUpdateOperationsInput | number
+  clubId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type EventCreateManyInput = {
-  id?: number
+  id?: string
   name: string
   location: string
   time: Date | string
-  clubId: number
+  clubId: string
 }
 
 export type EventUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type EventUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  clubId?: Prisma.IntFieldUpdateOperationsInput | number
+  clubId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type EventListRelationFilter = {
@@ -338,11 +301,6 @@ export type EventCountOrderByAggregateInput = {
   clubId?: Prisma.SortOrder
 }
 
-export type EventAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  clubId?: Prisma.SortOrder
-}
-
 export type EventMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -356,11 +314,6 @@ export type EventMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   location?: Prisma.SortOrder
   time?: Prisma.SortOrder
-  clubId?: Prisma.SortOrder
-}
-
-export type EventSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   clubId?: Prisma.SortOrder
 }
 
@@ -411,13 +364,14 @@ export type DateTimeFieldUpdateOperationsInput = {
 }
 
 export type EventCreateWithoutClubInput = {
+  id?: string
   name: string
   location: string
   time: Date | string
 }
 
 export type EventUncheckedCreateWithoutClubInput = {
-  id?: number
+  id?: string
   name: string
   location: string
   time: Date | string
@@ -453,35 +407,36 @@ export type EventScalarWhereInput = {
   AND?: Prisma.EventScalarWhereInput | Prisma.EventScalarWhereInput[]
   OR?: Prisma.EventScalarWhereInput[]
   NOT?: Prisma.EventScalarWhereInput | Prisma.EventScalarWhereInput[]
-  id?: Prisma.IntFilter<"Event"> | number
+  id?: Prisma.StringFilter<"Event"> | string
   name?: Prisma.StringFilter<"Event"> | string
   location?: Prisma.StringFilter<"Event"> | string
   time?: Prisma.DateTimeFilter<"Event"> | Date | string
-  clubId?: Prisma.IntFilter<"Event"> | number
+  clubId?: Prisma.StringFilter<"Event"> | string
 }
 
 export type EventCreateManyClubInput = {
-  id?: number
+  id?: string
   name: string
   location: string
   time: Date | string
 }
 
 export type EventUpdateWithoutClubInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type EventUncheckedUpdateWithoutClubInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type EventUncheckedUpdateManyWithoutClubInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -541,11 +496,11 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     club: Prisma.$ClubPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
+    id: string
     name: string
     location: string
     time: Date
-    clubId: number
+    clubId: string
   }, ExtArgs["result"]["event"]>
   composites: {}
 }
@@ -970,11 +925,11 @@ export interface Prisma__EventClient<T, Null = never, ExtArgs extends runtime.Ty
  * Fields of the Event model
  */
 export interface EventFieldRefs {
-  readonly id: Prisma.FieldRef<"Event", 'Int'>
+  readonly id: Prisma.FieldRef<"Event", 'String'>
   readonly name: Prisma.FieldRef<"Event", 'String'>
   readonly location: Prisma.FieldRef<"Event", 'String'>
   readonly time: Prisma.FieldRef<"Event", 'DateTime'>
-  readonly clubId: Prisma.FieldRef<"Event", 'Int'>
+  readonly clubId: Prisma.FieldRef<"Event", 'String'>
 }
     
 

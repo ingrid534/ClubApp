@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "User" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "passwordHash" TEXT NOT NULL,
 
@@ -9,9 +9,9 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "Club" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "organizerId" INTEGER NOT NULL,
+    "organizerId" TEXT NOT NULL,
     "registered" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Club_pkey" PRIMARY KEY ("id")
@@ -19,18 +19,18 @@ CREATE TABLE "Club" (
 
 -- CreateTable
 CREATE TABLE "Event" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "location" TEXT NOT NULL,
     "time" TIMESTAMP(3) NOT NULL,
-    "clubId" INTEGER NOT NULL,
+    "clubId" TEXT NOT NULL,
 
     CONSTRAINT "Event_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Category" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
 
     CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
@@ -38,16 +38,16 @@ CREATE TABLE "Category" (
 
 -- CreateTable
 CREATE TABLE "ClubFollowing" (
-    "userId" INTEGER NOT NULL,
-    "clubId" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
+    "clubId" TEXT NOT NULL,
 
     CONSTRAINT "ClubFollowing_pkey" PRIMARY KEY ("userId","clubId")
 );
 
 -- CreateTable
 CREATE TABLE "ClubCategories" (
-    "clubId" INTEGER NOT NULL,
-    "categoryId" INTEGER NOT NULL,
+    "clubId" TEXT NOT NULL,
+    "categoryId" TEXT NOT NULL,
 
     CONSTRAINT "ClubCategories_pkey" PRIMARY KEY ("clubId","categoryId")
 );

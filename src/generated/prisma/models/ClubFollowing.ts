@@ -20,30 +20,18 @@ export type ClubFollowingModel = runtime.Types.Result.DefaultSelection<Prisma.$C
 
 export type AggregateClubFollowing = {
   _count: ClubFollowingCountAggregateOutputType | null
-  _avg: ClubFollowingAvgAggregateOutputType | null
-  _sum: ClubFollowingSumAggregateOutputType | null
   _min: ClubFollowingMinAggregateOutputType | null
   _max: ClubFollowingMaxAggregateOutputType | null
 }
 
-export type ClubFollowingAvgAggregateOutputType = {
-  userId: number | null
-  clubId: number | null
-}
-
-export type ClubFollowingSumAggregateOutputType = {
-  userId: number | null
-  clubId: number | null
-}
-
 export type ClubFollowingMinAggregateOutputType = {
-  userId: number | null
-  clubId: number | null
+  userId: string | null
+  clubId: string | null
 }
 
 export type ClubFollowingMaxAggregateOutputType = {
-  userId: number | null
-  clubId: number | null
+  userId: string | null
+  clubId: string | null
 }
 
 export type ClubFollowingCountAggregateOutputType = {
@@ -52,16 +40,6 @@ export type ClubFollowingCountAggregateOutputType = {
   _all: number
 }
 
-
-export type ClubFollowingAvgAggregateInputType = {
-  userId?: true
-  clubId?: true
-}
-
-export type ClubFollowingSumAggregateInputType = {
-  userId?: true
-  clubId?: true
-}
 
 export type ClubFollowingMinAggregateInputType = {
   userId?: true
@@ -117,18 +95,6 @@ export type ClubFollowingAggregateArgs<ExtArgs extends runtime.Types.Extensions.
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: ClubFollowingAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: ClubFollowingSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: ClubFollowingMinAggregateInputType
@@ -159,18 +125,14 @@ export type ClubFollowingGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   _count?: ClubFollowingCountAggregateInputType | true
-  _avg?: ClubFollowingAvgAggregateInputType
-  _sum?: ClubFollowingSumAggregateInputType
   _min?: ClubFollowingMinAggregateInputType
   _max?: ClubFollowingMaxAggregateInputType
 }
 
 export type ClubFollowingGroupByOutputType = {
-  userId: number
-  clubId: number
+  userId: string
+  clubId: string
   _count: ClubFollowingCountAggregateOutputType | null
-  _avg: ClubFollowingAvgAggregateOutputType | null
-  _sum: ClubFollowingSumAggregateOutputType | null
   _min: ClubFollowingMinAggregateOutputType | null
   _max: ClubFollowingMaxAggregateOutputType | null
 }
@@ -194,8 +156,8 @@ export type ClubFollowingWhereInput = {
   AND?: Prisma.ClubFollowingWhereInput | Prisma.ClubFollowingWhereInput[]
   OR?: Prisma.ClubFollowingWhereInput[]
   NOT?: Prisma.ClubFollowingWhereInput | Prisma.ClubFollowingWhereInput[]
-  userId?: Prisma.IntFilter<"ClubFollowing"> | number
-  clubId?: Prisma.IntFilter<"ClubFollowing"> | number
+  userId?: Prisma.StringFilter<"ClubFollowing"> | string
+  clubId?: Prisma.StringFilter<"ClubFollowing"> | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   club?: Prisma.XOR<Prisma.ClubScalarRelationFilter, Prisma.ClubWhereInput>
 }
@@ -212,8 +174,8 @@ export type ClubFollowingWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ClubFollowingWhereInput | Prisma.ClubFollowingWhereInput[]
   OR?: Prisma.ClubFollowingWhereInput[]
   NOT?: Prisma.ClubFollowingWhereInput | Prisma.ClubFollowingWhereInput[]
-  userId?: Prisma.IntFilter<"ClubFollowing"> | number
-  clubId?: Prisma.IntFilter<"ClubFollowing"> | number
+  userId?: Prisma.StringFilter<"ClubFollowing"> | string
+  clubId?: Prisma.StringFilter<"ClubFollowing"> | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   club?: Prisma.XOR<Prisma.ClubScalarRelationFilter, Prisma.ClubWhereInput>
 }, "userId_clubId">
@@ -222,18 +184,16 @@ export type ClubFollowingOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   clubId?: Prisma.SortOrder
   _count?: Prisma.ClubFollowingCountOrderByAggregateInput
-  _avg?: Prisma.ClubFollowingAvgOrderByAggregateInput
   _max?: Prisma.ClubFollowingMaxOrderByAggregateInput
   _min?: Prisma.ClubFollowingMinOrderByAggregateInput
-  _sum?: Prisma.ClubFollowingSumOrderByAggregateInput
 }
 
 export type ClubFollowingScalarWhereWithAggregatesInput = {
   AND?: Prisma.ClubFollowingScalarWhereWithAggregatesInput | Prisma.ClubFollowingScalarWhereWithAggregatesInput[]
   OR?: Prisma.ClubFollowingScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ClubFollowingScalarWhereWithAggregatesInput | Prisma.ClubFollowingScalarWhereWithAggregatesInput[]
-  userId?: Prisma.IntWithAggregatesFilter<"ClubFollowing"> | number
-  clubId?: Prisma.IntWithAggregatesFilter<"ClubFollowing"> | number
+  userId?: Prisma.StringWithAggregatesFilter<"ClubFollowing"> | string
+  clubId?: Prisma.StringWithAggregatesFilter<"ClubFollowing"> | string
 }
 
 export type ClubFollowingCreateInput = {
@@ -242,8 +202,8 @@ export type ClubFollowingCreateInput = {
 }
 
 export type ClubFollowingUncheckedCreateInput = {
-  userId: number
-  clubId: number
+  userId: string
+  clubId: string
 }
 
 export type ClubFollowingUpdateInput = {
@@ -252,13 +212,13 @@ export type ClubFollowingUpdateInput = {
 }
 
 export type ClubFollowingUncheckedUpdateInput = {
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  clubId?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  clubId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ClubFollowingCreateManyInput = {
-  userId: number
-  clubId: number
+  userId: string
+  clubId: string
 }
 
 export type ClubFollowingUpdateManyMutationInput = {
@@ -266,8 +226,8 @@ export type ClubFollowingUpdateManyMutationInput = {
 }
 
 export type ClubFollowingUncheckedUpdateManyInput = {
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  clubId?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  clubId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ClubFollowingListRelationFilter = {
@@ -281,16 +241,11 @@ export type ClubFollowingOrderByRelationAggregateInput = {
 }
 
 export type ClubFollowingUserIdClubIdCompoundUniqueInput = {
-  userId: number
-  clubId: number
+  userId: string
+  clubId: string
 }
 
 export type ClubFollowingCountOrderByAggregateInput = {
-  userId?: Prisma.SortOrder
-  clubId?: Prisma.SortOrder
-}
-
-export type ClubFollowingAvgOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   clubId?: Prisma.SortOrder
 }
@@ -301,11 +256,6 @@ export type ClubFollowingMaxOrderByAggregateInput = {
 }
 
 export type ClubFollowingMinOrderByAggregateInput = {
-  userId?: Prisma.SortOrder
-  clubId?: Prisma.SortOrder
-}
-
-export type ClubFollowingSumOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   clubId?: Prisma.SortOrder
 }
@@ -399,7 +349,7 @@ export type ClubFollowingCreateWithoutUserInput = {
 }
 
 export type ClubFollowingUncheckedCreateWithoutUserInput = {
-  clubId: number
+  clubId: string
 }
 
 export type ClubFollowingCreateOrConnectWithoutUserInput = {
@@ -432,8 +382,8 @@ export type ClubFollowingScalarWhereInput = {
   AND?: Prisma.ClubFollowingScalarWhereInput | Prisma.ClubFollowingScalarWhereInput[]
   OR?: Prisma.ClubFollowingScalarWhereInput[]
   NOT?: Prisma.ClubFollowingScalarWhereInput | Prisma.ClubFollowingScalarWhereInput[]
-  userId?: Prisma.IntFilter<"ClubFollowing"> | number
-  clubId?: Prisma.IntFilter<"ClubFollowing"> | number
+  userId?: Prisma.StringFilter<"ClubFollowing"> | string
+  clubId?: Prisma.StringFilter<"ClubFollowing"> | string
 }
 
 export type ClubFollowingCreateWithoutClubInput = {
@@ -441,7 +391,7 @@ export type ClubFollowingCreateWithoutClubInput = {
 }
 
 export type ClubFollowingUncheckedCreateWithoutClubInput = {
-  userId: number
+  userId: string
 }
 
 export type ClubFollowingCreateOrConnectWithoutClubInput = {
@@ -471,7 +421,7 @@ export type ClubFollowingUpdateManyWithWhereWithoutClubInput = {
 }
 
 export type ClubFollowingCreateManyUserInput = {
-  clubId: number
+  clubId: string
 }
 
 export type ClubFollowingUpdateWithoutUserInput = {
@@ -479,15 +429,15 @@ export type ClubFollowingUpdateWithoutUserInput = {
 }
 
 export type ClubFollowingUncheckedUpdateWithoutUserInput = {
-  clubId?: Prisma.IntFieldUpdateOperationsInput | number
+  clubId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ClubFollowingUncheckedUpdateManyWithoutUserInput = {
-  clubId?: Prisma.IntFieldUpdateOperationsInput | number
+  clubId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ClubFollowingCreateManyClubInput = {
-  userId: number
+  userId: string
 }
 
 export type ClubFollowingUpdateWithoutClubInput = {
@@ -495,11 +445,11 @@ export type ClubFollowingUpdateWithoutClubInput = {
 }
 
 export type ClubFollowingUncheckedUpdateWithoutClubInput = {
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ClubFollowingUncheckedUpdateManyWithoutClubInput = {
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -551,8 +501,8 @@ export type $ClubFollowingPayload<ExtArgs extends runtime.Types.Extensions.Inter
     club: Prisma.$ClubPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    userId: number
-    clubId: number
+    userId: string
+    clubId: string
   }, ExtArgs["result"]["clubFollowing"]>
   composites: {}
 }
@@ -978,8 +928,8 @@ export interface Prisma__ClubFollowingClient<T, Null = never, ExtArgs extends ru
  * Fields of the ClubFollowing model
  */
 export interface ClubFollowingFieldRefs {
-  readonly userId: Prisma.FieldRef<"ClubFollowing", 'Int'>
-  readonly clubId: Prisma.FieldRef<"ClubFollowing", 'Int'>
+  readonly userId: Prisma.FieldRef<"ClubFollowing", 'String'>
+  readonly clubId: Prisma.FieldRef<"ClubFollowing", 'String'>
 }
     
 
