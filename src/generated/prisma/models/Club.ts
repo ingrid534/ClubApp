@@ -20,33 +20,21 @@ export type ClubModel = runtime.Types.Result.DefaultSelection<Prisma.$ClubPayloa
 
 export type AggregateClub = {
   _count: ClubCountAggregateOutputType | null
-  _avg: ClubAvgAggregateOutputType | null
-  _sum: ClubSumAggregateOutputType | null
   _min: ClubMinAggregateOutputType | null
   _max: ClubMaxAggregateOutputType | null
 }
 
-export type ClubAvgAggregateOutputType = {
-  id: number | null
-  organizerId: number | null
-}
-
-export type ClubSumAggregateOutputType = {
-  id: number | null
-  organizerId: number | null
-}
-
 export type ClubMinAggregateOutputType = {
-  id: number | null
+  id: string | null
   name: string | null
-  organizerId: number | null
+  organizerId: string | null
   registered: boolean | null
 }
 
 export type ClubMaxAggregateOutputType = {
-  id: number | null
+  id: string | null
   name: string | null
-  organizerId: number | null
+  organizerId: string | null
   registered: boolean | null
 }
 
@@ -58,16 +46,6 @@ export type ClubCountAggregateOutputType = {
   _all: number
 }
 
-
-export type ClubAvgAggregateInputType = {
-  id?: true
-  organizerId?: true
-}
-
-export type ClubSumAggregateInputType = {
-  id?: true
-  organizerId?: true
-}
 
 export type ClubMinAggregateInputType = {
   id?: true
@@ -129,18 +107,6 @@ export type ClubAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: ClubAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: ClubSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: ClubMinAggregateInputType
@@ -171,20 +137,16 @@ export type ClubGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: ClubCountAggregateInputType | true
-  _avg?: ClubAvgAggregateInputType
-  _sum?: ClubSumAggregateInputType
   _min?: ClubMinAggregateInputType
   _max?: ClubMaxAggregateInputType
 }
 
 export type ClubGroupByOutputType = {
-  id: number
+  id: string
   name: string
-  organizerId: number
+  organizerId: string
   registered: boolean
   _count: ClubCountAggregateOutputType | null
-  _avg: ClubAvgAggregateOutputType | null
-  _sum: ClubSumAggregateOutputType | null
   _min: ClubMinAggregateOutputType | null
   _max: ClubMaxAggregateOutputType | null
 }
@@ -208,9 +170,9 @@ export type ClubWhereInput = {
   AND?: Prisma.ClubWhereInput | Prisma.ClubWhereInput[]
   OR?: Prisma.ClubWhereInput[]
   NOT?: Prisma.ClubWhereInput | Prisma.ClubWhereInput[]
-  id?: Prisma.IntFilter<"Club"> | number
+  id?: Prisma.StringFilter<"Club"> | string
   name?: Prisma.StringFilter<"Club"> | string
-  organizerId?: Prisma.IntFilter<"Club"> | number
+  organizerId?: Prisma.StringFilter<"Club"> | string
   registered?: Prisma.BoolFilter<"Club"> | boolean
   followers?: Prisma.ClubFollowingListRelationFilter
   organizer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -230,12 +192,12 @@ export type ClubOrderByWithRelationInput = {
 }
 
 export type ClubWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  id?: string
   name?: string
   AND?: Prisma.ClubWhereInput | Prisma.ClubWhereInput[]
   OR?: Prisma.ClubWhereInput[]
   NOT?: Prisma.ClubWhereInput | Prisma.ClubWhereInput[]
-  organizerId?: Prisma.IntFilter<"Club"> | number
+  organizerId?: Prisma.StringFilter<"Club"> | string
   registered?: Prisma.BoolFilter<"Club"> | boolean
   followers?: Prisma.ClubFollowingListRelationFilter
   organizer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -249,23 +211,22 @@ export type ClubOrderByWithAggregationInput = {
   organizerId?: Prisma.SortOrder
   registered?: Prisma.SortOrder
   _count?: Prisma.ClubCountOrderByAggregateInput
-  _avg?: Prisma.ClubAvgOrderByAggregateInput
   _max?: Prisma.ClubMaxOrderByAggregateInput
   _min?: Prisma.ClubMinOrderByAggregateInput
-  _sum?: Prisma.ClubSumOrderByAggregateInput
 }
 
 export type ClubScalarWhereWithAggregatesInput = {
   AND?: Prisma.ClubScalarWhereWithAggregatesInput | Prisma.ClubScalarWhereWithAggregatesInput[]
   OR?: Prisma.ClubScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ClubScalarWhereWithAggregatesInput | Prisma.ClubScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"Club"> | number
+  id?: Prisma.StringWithAggregatesFilter<"Club"> | string
   name?: Prisma.StringWithAggregatesFilter<"Club"> | string
-  organizerId?: Prisma.IntWithAggregatesFilter<"Club"> | number
+  organizerId?: Prisma.StringWithAggregatesFilter<"Club"> | string
   registered?: Prisma.BoolWithAggregatesFilter<"Club"> | boolean
 }
 
 export type ClubCreateInput = {
+  id?: string
   name: string
   registered?: boolean
   followers?: Prisma.ClubFollowingCreateNestedManyWithoutClubInput
@@ -275,9 +236,9 @@ export type ClubCreateInput = {
 }
 
 export type ClubUncheckedCreateInput = {
-  id?: number
+  id?: string
   name: string
-  organizerId: number
+  organizerId: string
   registered?: boolean
   followers?: Prisma.ClubFollowingUncheckedCreateNestedManyWithoutClubInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutClubInput
@@ -285,6 +246,7 @@ export type ClubUncheckedCreateInput = {
 }
 
 export type ClubUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   registered?: Prisma.BoolFieldUpdateOperationsInput | boolean
   followers?: Prisma.ClubFollowingUpdateManyWithoutClubNestedInput
@@ -294,9 +256,9 @@ export type ClubUpdateInput = {
 }
 
 export type ClubUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  organizerId?: Prisma.IntFieldUpdateOperationsInput | number
+  organizerId?: Prisma.StringFieldUpdateOperationsInput | string
   registered?: Prisma.BoolFieldUpdateOperationsInput | boolean
   followers?: Prisma.ClubFollowingUncheckedUpdateManyWithoutClubNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutClubNestedInput
@@ -304,21 +266,22 @@ export type ClubUncheckedUpdateInput = {
 }
 
 export type ClubCreateManyInput = {
-  id?: number
+  id?: string
   name: string
-  organizerId: number
+  organizerId: string
   registered?: boolean
 }
 
 export type ClubUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   registered?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type ClubUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  organizerId?: Prisma.IntFieldUpdateOperationsInput | number
+  organizerId?: Prisma.StringFieldUpdateOperationsInput | string
   registered?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -339,11 +302,6 @@ export type ClubCountOrderByAggregateInput = {
   registered?: Prisma.SortOrder
 }
 
-export type ClubAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  organizerId?: Prisma.SortOrder
-}
-
 export type ClubMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -356,11 +314,6 @@ export type ClubMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   organizerId?: Prisma.SortOrder
   registered?: Prisma.SortOrder
-}
-
-export type ClubSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  organizerId?: Prisma.SortOrder
 }
 
 export type ClubScalarRelationFilter = {
@@ -457,6 +410,7 @@ export type ClubUpdateOneRequiredWithoutCategoriesNestedInput = {
 }
 
 export type ClubCreateWithoutOrganizerInput = {
+  id?: string
   name: string
   registered?: boolean
   followers?: Prisma.ClubFollowingCreateNestedManyWithoutClubInput
@@ -465,7 +419,7 @@ export type ClubCreateWithoutOrganizerInput = {
 }
 
 export type ClubUncheckedCreateWithoutOrganizerInput = {
-  id?: number
+  id?: string
   name: string
   registered?: boolean
   followers?: Prisma.ClubFollowingUncheckedCreateNestedManyWithoutClubInput
@@ -503,13 +457,14 @@ export type ClubScalarWhereInput = {
   AND?: Prisma.ClubScalarWhereInput | Prisma.ClubScalarWhereInput[]
   OR?: Prisma.ClubScalarWhereInput[]
   NOT?: Prisma.ClubScalarWhereInput | Prisma.ClubScalarWhereInput[]
-  id?: Prisma.IntFilter<"Club"> | number
+  id?: Prisma.StringFilter<"Club"> | string
   name?: Prisma.StringFilter<"Club"> | string
-  organizerId?: Prisma.IntFilter<"Club"> | number
+  organizerId?: Prisma.StringFilter<"Club"> | string
   registered?: Prisma.BoolFilter<"Club"> | boolean
 }
 
 export type ClubCreateWithoutEventsInput = {
+  id?: string
   name: string
   registered?: boolean
   followers?: Prisma.ClubFollowingCreateNestedManyWithoutClubInput
@@ -518,9 +473,9 @@ export type ClubCreateWithoutEventsInput = {
 }
 
 export type ClubUncheckedCreateWithoutEventsInput = {
-  id?: number
+  id?: string
   name: string
-  organizerId: number
+  organizerId: string
   registered?: boolean
   followers?: Prisma.ClubFollowingUncheckedCreateNestedManyWithoutClubInput
   categories?: Prisma.ClubCategoriesUncheckedCreateNestedManyWithoutClubInput
@@ -543,6 +498,7 @@ export type ClubUpdateToOneWithWhereWithoutEventsInput = {
 }
 
 export type ClubUpdateWithoutEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   registered?: Prisma.BoolFieldUpdateOperationsInput | boolean
   followers?: Prisma.ClubFollowingUpdateManyWithoutClubNestedInput
@@ -551,15 +507,16 @@ export type ClubUpdateWithoutEventsInput = {
 }
 
 export type ClubUncheckedUpdateWithoutEventsInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  organizerId?: Prisma.IntFieldUpdateOperationsInput | number
+  organizerId?: Prisma.StringFieldUpdateOperationsInput | string
   registered?: Prisma.BoolFieldUpdateOperationsInput | boolean
   followers?: Prisma.ClubFollowingUncheckedUpdateManyWithoutClubNestedInput
   categories?: Prisma.ClubCategoriesUncheckedUpdateManyWithoutClubNestedInput
 }
 
 export type ClubCreateWithoutFollowersInput = {
+  id?: string
   name: string
   registered?: boolean
   organizer: Prisma.UserCreateNestedOneWithoutOrganizedClubsInput
@@ -568,9 +525,9 @@ export type ClubCreateWithoutFollowersInput = {
 }
 
 export type ClubUncheckedCreateWithoutFollowersInput = {
-  id?: number
+  id?: string
   name: string
-  organizerId: number
+  organizerId: string
   registered?: boolean
   events?: Prisma.EventUncheckedCreateNestedManyWithoutClubInput
   categories?: Prisma.ClubCategoriesUncheckedCreateNestedManyWithoutClubInput
@@ -593,6 +550,7 @@ export type ClubUpdateToOneWithWhereWithoutFollowersInput = {
 }
 
 export type ClubUpdateWithoutFollowersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   registered?: Prisma.BoolFieldUpdateOperationsInput | boolean
   organizer?: Prisma.UserUpdateOneRequiredWithoutOrganizedClubsNestedInput
@@ -601,15 +559,16 @@ export type ClubUpdateWithoutFollowersInput = {
 }
 
 export type ClubUncheckedUpdateWithoutFollowersInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  organizerId?: Prisma.IntFieldUpdateOperationsInput | number
+  organizerId?: Prisma.StringFieldUpdateOperationsInput | string
   registered?: Prisma.BoolFieldUpdateOperationsInput | boolean
   events?: Prisma.EventUncheckedUpdateManyWithoutClubNestedInput
   categories?: Prisma.ClubCategoriesUncheckedUpdateManyWithoutClubNestedInput
 }
 
 export type ClubCreateWithoutCategoriesInput = {
+  id?: string
   name: string
   registered?: boolean
   followers?: Prisma.ClubFollowingCreateNestedManyWithoutClubInput
@@ -618,9 +577,9 @@ export type ClubCreateWithoutCategoriesInput = {
 }
 
 export type ClubUncheckedCreateWithoutCategoriesInput = {
-  id?: number
+  id?: string
   name: string
-  organizerId: number
+  organizerId: string
   registered?: boolean
   followers?: Prisma.ClubFollowingUncheckedCreateNestedManyWithoutClubInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutClubInput
@@ -643,6 +602,7 @@ export type ClubUpdateToOneWithWhereWithoutCategoriesInput = {
 }
 
 export type ClubUpdateWithoutCategoriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   registered?: Prisma.BoolFieldUpdateOperationsInput | boolean
   followers?: Prisma.ClubFollowingUpdateManyWithoutClubNestedInput
@@ -651,21 +611,22 @@ export type ClubUpdateWithoutCategoriesInput = {
 }
 
 export type ClubUncheckedUpdateWithoutCategoriesInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  organizerId?: Prisma.IntFieldUpdateOperationsInput | number
+  organizerId?: Prisma.StringFieldUpdateOperationsInput | string
   registered?: Prisma.BoolFieldUpdateOperationsInput | boolean
   followers?: Prisma.ClubFollowingUncheckedUpdateManyWithoutClubNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutClubNestedInput
 }
 
 export type ClubCreateManyOrganizerInput = {
-  id?: number
+  id?: string
   name: string
   registered?: boolean
 }
 
 export type ClubUpdateWithoutOrganizerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   registered?: Prisma.BoolFieldUpdateOperationsInput | boolean
   followers?: Prisma.ClubFollowingUpdateManyWithoutClubNestedInput
@@ -674,7 +635,7 @@ export type ClubUpdateWithoutOrganizerInput = {
 }
 
 export type ClubUncheckedUpdateWithoutOrganizerInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   registered?: Prisma.BoolFieldUpdateOperationsInput | boolean
   followers?: Prisma.ClubFollowingUncheckedUpdateManyWithoutClubNestedInput
@@ -683,7 +644,7 @@ export type ClubUncheckedUpdateWithoutOrganizerInput = {
 }
 
 export type ClubUncheckedUpdateManyWithoutOrganizerInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   registered?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
@@ -796,9 +757,9 @@ export type $ClubPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     categories: Prisma.$ClubCategoriesPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
+    id: string
     name: string
-    organizerId: number
+    organizerId: string
     registered: boolean
   }, ExtArgs["result"]["club"]>
   composites: {}
@@ -1227,9 +1188,9 @@ export interface Prisma__ClubClient<T, Null = never, ExtArgs extends runtime.Typ
  * Fields of the Club model
  */
 export interface ClubFieldRefs {
-  readonly id: Prisma.FieldRef<"Club", 'Int'>
+  readonly id: Prisma.FieldRef<"Club", 'String'>
   readonly name: Prisma.FieldRef<"Club", 'String'>
-  readonly organizerId: Prisma.FieldRef<"Club", 'Int'>
+  readonly organizerId: Prisma.FieldRef<"Club", 'String'>
   readonly registered: Prisma.FieldRef<"Club", 'Boolean'>
 }
     
