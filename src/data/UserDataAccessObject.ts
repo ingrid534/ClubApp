@@ -1,6 +1,12 @@
 import type { Prisma, PrismaClient } from '../generated/prisma/client.js';
+import type {
+  UserDataAccessInterface,
+  UserInputData,
+  UserUpdateData} from './UserDataAccessInterface.js';
+import type { User } from '../model/UserModel.js';
+import type { Club } from '../model/ClubModel.js';
 
-export class UserDataAccessObject {
+export class UserDataAccessObject implements UserDataAccessInterface {
   prisma: PrismaClient;
 
   constructor(prisma: PrismaClient) {
@@ -12,8 +18,17 @@ export class UserDataAccessObject {
    * @param user JSON object with user data
    * @returns the new user object
    */
-  async createUser(user: Prisma.UserCreateInput) {
-    const newUser = await this.prisma.user.create({ data: user });
+  async createUser(user: UserInputData) {
+    const newUser = await this.prisma.user.create({
+      data: {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        username: user.username,
+        passwordHash: user.passwordHash,
+      },
+    });
     return newUser;
   }
 
@@ -22,20 +37,35 @@ export class UserDataAccessObject {
    * @returns all of the user objects in the database
    */
   async getAllUsers() {
-    const users = await this.prisma.user.findMany();
+    const users = await this.prisma.user.findMany({
+      where: {},
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        username: true,
+        phoneNumber: true,
+      },
+    });
     return users;
   }
+  // STOPPED HERE -----------------------------
 
   /**
    * Return user array corresponding to userId array.
    * @param userIds the array of user ids
    */
-  async getUserArray(userIds: string[]) {
-    const users = this.prisma.user.findMany({
-      where: {
-        id: {
-          in: userIds,
-        },
+  async getUsersById(userIds: string[]) {
+    const users: User[] = await this.prisma.user.findMany({
+      where: { id: { in: userIds } },
+      select: {
+        id: true,
+        username: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        phoneNumber: true,
       },
     });
     return users;
@@ -48,8 +78,14 @@ export class UserDataAccessObject {
    */
   async getUserById(userId: string) {
     const user = await this.prisma.user.findUnique({
-      where: {
-        id: userId,
+      where: { id: userId },
+      select: {
+        id: true,
+        username: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        phoneNumber: true,
       },
     });
     return user;
@@ -62,8 +98,14 @@ export class UserDataAccessObject {
    */
   async getUserByEmail(email: string) {
     const user = await this.prisma.user.findUnique({
-      where: {
-        email: email,
+      where: { email: email },
+      select: {
+        id: true,
+        username: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        phoneNumber: true,
       },
     });
     return user;
@@ -76,8 +118,14 @@ export class UserDataAccessObject {
    */
   async getUserByPhone(phoneNum: string) {
     const user = await this.prisma.user.findUnique({
-      where: {
-        phoneNumber: phoneNum,
+      where: { phoneNumber: phoneNum },
+      select: {
+        id: true,
+        username: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        phoneNumber: true,
       },
     });
     return user;
@@ -90,8 +138,14 @@ export class UserDataAccessObject {
    */
   async getUserByUsername(username: string) {
     const user = await this.prisma.user.findUnique({
-      where: {
-        username: username,
+      where: { username: username },
+      select: {
+        id: true,
+        username: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        phoneNumber: true,
       },
     });
     return user;
@@ -102,13 +156,21 @@ export class UserDataAccessObject {
    * @param userId the id of the user
    * @returns the club ids
    */
-  async getFollowingClubsForUser(userId: string) {
+  async getFollowingClubs(userId: string) {
     const clubs = await this.prisma.clubFollowing.findMany({
-      where: {
-        userId: userId,
+      where: { userId: userId },
+      select: {
+        club: {
+          select: {
+            id: true,
+            name: true,
+            organizerId: true,
+            registered: true,
+          },
+        },
       },
     });
-    return clubs.map((clubFollowing) => clubFollowing.clubId);
+    return clubs.map((clubFollowing) => clubFollowing.club);
   }
 
   /**
@@ -117,7 +179,7 @@ export class UserDataAccessObject {
    * @param userId the id of the user
    * @returns the club objects
    */
-  async getOrganizedClubsForUser(userId: string) {
+  async getOrganizingClubs(userId: string) {
     const clubs = await this.prisma.club.findMany({
       where: {
         organizerId: userId,

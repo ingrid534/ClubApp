@@ -1,10 +1,8 @@
 export interface User {
-  id: number;
+  id: string;
   username: string;
   firstName: string;
   lastName: string;
   email: string;
-  phoneNumber?: string;
-  followingClubIds: string[];
-  organizedClubIds: string[];
+  phoneNumber: string | null;
 }
