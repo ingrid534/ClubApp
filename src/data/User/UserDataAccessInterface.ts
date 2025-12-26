@@ -1,23 +1,6 @@
-import type { User } from '../model/UserModel.js';
-import type { Club } from '../model/ClubModel.js';
-
-export interface UserInputData {
-  username: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string | null;
-  passwordHash: string;
-}
-
-export interface UserUpdateData {
-  username?: string;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  phoneNumber?: string;
-  passwordHash?: string;
-}
+import type { User } from '../../model/UserModel.js';
+import type { Club } from '../../model/ClubModel.js';
+import type { CreateUserData, UpdateUserData } from './UserInputData.js';
 
 export interface UserDataAccessInterface {
   /**
@@ -25,7 +8,7 @@ export interface UserDataAccessInterface {
    * @param user JSON object with user data
    * @returns the new user object
    */
-  createUser(data: UserInputData): Promise<User | null>;
+  createUser(data: CreateUserData): Promise<User | null>;
 
   /**
    * Read all users
@@ -75,35 +58,35 @@ export interface UserDataAccessInterface {
   getOrganizingClubs(userId: string): Promise<Club[]>;
 
   /**
-   * Check whether the given user is an organizer for the given club.
-   * @param userId the user to verify
-   * @param clubId the club in which to verify organizer status
-   */
-  isOrganizer(userId: string, clubId: string): boolean;
-
-  /**
    * Update the user with the given userId with the new data.
    * @param userId the id of user to be updated
    * @param newData the new updated data for user
    */
-  updateUser(userId: string, data: UserUpdateData): Promise<User>;
+  updateUser(userId: string, data: UpdateUserData): Promise<User>;
 
   /**
    * Update the user's organizing clubs with the new club.
    * @param userId the id of the user to update organizing for
    * @param clubId the id of the new club user is organizing
    */
-  updateOrganizingClubs(userId: string, clubId: string): void;
+  addOrganizingClub(userId: string, clubId: string): Promise<void>;
+
+  /**
+   * Remove the club corresponding to given id from the user's organizing.
+   * @param userId the user to remove club from
+   * @param clubId the club to remove from user's organizing clubs
+   */
+  removeOrganizingClub(userId: string, clubId: string): Promise<void>;
 
   /**
    * Delete the club associated with the given id from user's following ('unfollow' club).
    * @param userId the user from which to remove the club
    */
-  deleteClubFollowing(userId: string, clubId: string): void;
+  deleteClubFollowing(userId: string, clubId: string): Promise<void>;
 
   /**
    * Delete the user associated with the given id.
    * @param userId the id of user to be deleted
    */
-  deleteUser(userId: string): void;
+  deleteUser(userId: string): Promise<void>;
 }
