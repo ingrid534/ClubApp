@@ -1,43 +1,84 @@
-import { PrismaClient } from "../generated/prisma/client.js"
-export class ClubDataAccessObject {
-    prisma: PrismaClient;
+import { PrismaClient } from '../generated/prisma/client.js';
+import type { ClubDataAccessInterface } from './ClubDataAccessInterface.js';
+import type { Club } from '../model/ClubModel.js';
 
-    constructor(prisma: PrismaClient) {
-        this.prisma = prisma;
-    }
+export class ClubDataAccessObject implements ClubDataAccessInterface {
+  prisma: PrismaClient;
 
-    /**
-     * Return the club object associated with the given id.
-     * @param clubId the ID of the club to be retrieved.
-     */
-    async getClubById(clubId: string) {
-        // prisma.club.findUnique
-    }
+  constructor(prisma: PrismaClient) {
+    this.prisma = prisma;
+  }
 
-    /**
-     * Return the organizer (id) of the given club (by id).
-     * @param clubId club id 
-     */
-    async getOrganizer(clubId: string) {
-        // prisma.club.findUnique
-    }
+  async getClub(clubId: string): Promise<Club | null> {
+    return await this.prisma.club.findUnique({
+      where: { id: clubId },
+      select: {
+        id: true,
+        name: true,
+        organizerId: true,
+        registered: true,
+      },
+    });
+  }
 
-    /**
-     * Return the list of users (by id) that follow the given club.
-     * @param clubId club id
-     */
-    async getClubFollowers(clubId: string) {
-        // use prisma.clubFollowing.findMany - search by clubID.
-        // i think we shouldn't have separate DAO for clubFollowing since all it's used for are club and user operations, which should be in their respective DAOs.
-    }
+  async getManyClubs(clubIds: string[]): Promise<Club[]> {
+    const response = await this.prisma.club.findMany({
+      where: { id: { in: clubIds } },
+      select: {
+        id: true,
+        name: true,
+        organizerId: true,
+        registered: true,
+      },
+    });
+    return response;
+  }
 
-    /**
-     * Return whether this club is registered.
-     * @param clubId club (by id) to check registration for 
-     */
-    async checkClubRegistered(clubId: string) {
-        // prisma.club.findUnique (select registered field)
-    }
+  async getOrganizer(clubId: string) {
+    const response = await this.prisma.club.findUnique({
+      where: { id: clubId },
+      select: {
+        organizer: {
+          select: {
+            id: true,
+            username: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            phoneNumber: true,
+          },
+        },
+      },
+    });
 
-    
+    return response ? response.organizer : null;
+  }
+
+  async getClubFollowers(clubId: string) {
+    const response = await this.prisma.clubFollowing.findMany({
+      where: { clubId: clubId },
+      select: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            phoneNumber: true,
+          },
+        },
+      },
+    });
+
+    return response ? response.map((item) => item.user) : [];
+  }
+
+  async checkClubRegistered(clubId: string) {
+    const response = await this.prisma.club.findUnique({
+      where: { id: clubId },
+      select: { registered: true },
+    });
+    return response ? response.registered : false;
+  }
 }
