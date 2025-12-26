@@ -1,5 +1,4 @@
-export interface Event {
-  id: string;
+export interface EventInputData {
   name: string;
   description: string;
   location: string;

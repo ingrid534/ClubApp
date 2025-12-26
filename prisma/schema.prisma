@@ -31,12 +31,13 @@ model Club {
 }
 
 model Event {
-  id       String   @id @default(uuid())
-  name     String
-  location String
-  time     DateTime
-  clubId   String
-  club     Club     @relation(fields: [clubId], references: [id])
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  location    String
+  time        DateTime
+  clubId      String
+  club        Club     @relation(fields: [clubId], references: [id])
 }
 
 model Category {
