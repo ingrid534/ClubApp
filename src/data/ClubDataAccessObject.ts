@@ -71,7 +71,7 @@ export class ClubDataAccessObject implements ClubDataAccessInterface {
       },
     });
 
-    return response ? response.map((item) => item.user) : [];
+    return response.map((item) => item.user);
   }
 
   async checkClubRegistered(clubId: string) {
