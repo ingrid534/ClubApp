@@ -25,10 +25,9 @@ node_modules
 .vscode/
 
 # Prisma generated
-./src/generated/
+src/generated/prisma
 
 # npm and yarn debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-/generated/prisma
