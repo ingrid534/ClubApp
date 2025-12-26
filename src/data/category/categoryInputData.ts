@@ -1,4 +1,4 @@
 export interface CategoryInputData {
-  name: string;
-  description: string;
+  name?: string;
+  description?: string;
 }

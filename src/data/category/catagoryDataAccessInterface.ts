@@ -32,5 +32,5 @@ export interface CategoryDataAccessInterface {
    * @param clubId club id
    * @param catagories array of cateogries to set for the club
    */
-  updateClubCatagories(clubId: string, catagories: string[]): Promise<void>;
+  updateClubCatagories(clubId: string, categoryIds: string[]): Promise<void>;
 }
