@@ -39,11 +39,4 @@ export interface EventDataAccessInterface {
    * @param eventId event id
    */
   deleteEvent(eventId: string): Promise<void>;
-
-  /**
-   * list events by club id
-   *
-   * @param clubId club id
-   */
-  listEvents(clubId: string): Promise<Event[]>;
 }
