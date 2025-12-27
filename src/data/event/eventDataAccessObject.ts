@@ -53,19 +53,4 @@ export class EventDataAccessObject implements EventDataAccessInterface {
       where: { id: eventId },
     });
   }
-
-  async listEvents(clubId: string): Promise<Event[]> {
-    const events: Event[] = await this.prisma.event.findMany({
-      where: { clubId },
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        date: true,
-        location: true,
-      },
-    });
-
-    return events;
-  }
 }
