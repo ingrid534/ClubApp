@@ -35,7 +35,7 @@ model Event {
   name        String
   description String
   location    String
-  time        DateTime
+  date        DateTime
   clubId      String
   club        Club     @relation(fields: [clubId], references: [id])
 }

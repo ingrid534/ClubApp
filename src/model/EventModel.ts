@@ -3,5 +3,5 @@ export interface Event {
   name: string;
   description: string;
   location: string;
-  time: string;
+  date: Date;
 }

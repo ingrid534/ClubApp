@@ -77,6 +77,10 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const UserScalarFieldEnum = {
   id: 'id',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  email: 'email',
+  phoneNumber: 'phoneNumber',
   username: 'username',
   passwordHash: 'passwordHash'
 } as const
@@ -97,8 +101,9 @@ export type ClubScalarFieldEnum = (typeof ClubScalarFieldEnum)[keyof typeof Club
 export const EventScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  description: 'description',
   location: 'location',
-  time: 'time',
+  date: 'date',
   clubId: 'clubId'
 } as const
 
@@ -107,7 +112,8 @@ export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof Ev
 
 export const CategoryScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  name: 'name',
+  description: 'description'
 } as const
 
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
@@ -143,4 +149,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

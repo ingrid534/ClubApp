@@ -1,6 +1,14 @@
-export interface EventInputData {
+export interface CreateEventInputData {
   name: string;
   description: string;
   location: string;
-  time: string;
+  date: Date;
+  clubId: string;
+}
+
+export interface UpdateEventInputData {
+  name?: string;
+  description?: string;
+  location?: string;
+  date?: Date;
 }
