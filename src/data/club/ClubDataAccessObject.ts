@@ -4,8 +4,10 @@ import type {
   CreateClubInputData,
   UpdateClubInputData,
 } from './ClubInputData.js';
+import type { User as PrismaUser } from '../../generated/prisma/client.js';
 import type { Club } from '../../model/ClubModel.js';
-import type { User } from '../../model/User.js';
+import type { User } from '../../model/UserModel.js';
+import type { Event } from '../../model/EventModel.js';
 
 export class ClubDataAccessObject implements ClubDataAccessInterface {
   prisma: PrismaClient;
@@ -125,7 +127,7 @@ export class ClubDataAccessObject implements ClubDataAccessInterface {
   }
 
   async getClubFollowers(clubId: string): Promise<User[]> {
-    const response = await this.prisma.clubFollowing.findMany({
+    const response: PrismaUser[] = await this.prisma.clubFollowing.findMany({
       where: { clubId: clubId },
       select: {
         user: {
@@ -141,7 +143,8 @@ export class ClubDataAccessObject implements ClubDataAccessInterface {
       },
     });
 
-    return response.map((item) => item.user);
+    const users: User[] = response.map((item: PrismaUser) => item.user);
+    return users;
   }
 
   async checkClubRegistered(clubId: string): Promise<boolean> {
@@ -150,5 +153,24 @@ export class ClubDataAccessObject implements ClubDataAccessInterface {
       select: { registered: true },
     });
     return response ? response.registered : false;
+  }
+
+  async listEvents(clubId: string): Promise<Event[]> {
+    const events: Event[] = await this.prisma.club.findMany({
+      where: { clubId },
+      select: {
+        events: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            date: true,
+            location: true,
+          },
+        },
+      },
+    });
+
+    return events;
   }
 }

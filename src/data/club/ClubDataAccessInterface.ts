@@ -1,5 +1,6 @@
 import type { Club } from '../../model/ClubModel.js';
-import type { User } from '../../model/User.js';
+import type { User } from '../../model/UserModel.js';
+import type { Event } from '../../model/EventModel.js';
 import type {
   CreateClubInputData,
   UpdateClubInputData,
@@ -65,4 +66,11 @@ export interface ClubDataAccessInterface {
    * @param clubId club (by id) to check registration for
    */
   checkClubRegistered(clubId: string): Promise<boolean>;
+
+  /**
+   * list events by club id
+   *
+   * @param clubId club id
+   */
+  listEvents(clubId: string): Promise<Event[]>;
 }
