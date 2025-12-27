@@ -22,6 +22,7 @@ export class EventDataAccessObject implements EventDataAccessInterface {
         description: true,
         date: true,
         location: true,
+        clubId: true,
       },
     });
 
