@@ -1,5 +1,5 @@
 import type { UserDataAccessInterface } from '../data/user/UserDataAccessInterface.js';
-import { PrismaClient } from '../generated/prisma/client.js';
+import type { CreateUserData } from '../data/user/UserInputData.js';
 export class UserController {
   private userDao: UserDataAccessInterface;
 
@@ -7,7 +7,7 @@ export class UserController {
     this.userDao = userDao;
   }
 
-  async createUser(userData: any) {
+  async createUser(userData: CreateUserData) {
     // You may want to validate userData here
     return await this.userDao.createUser(userData);
   }
