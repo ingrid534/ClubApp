@@ -14,6 +14,12 @@ export interface EventDataAccessInterface {
   getEventById(eventId: string): Promise<Event | null>;
 
   /**
+   * Get all events
+   * @returns list of events
+   */
+  getEvents(): Promise<Event[]>;
+
+  /**
    * Create event
    *
    * Return created event
