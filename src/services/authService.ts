@@ -1,4 +1,6 @@
 import type { UserDataAccessInterface } from '../data/user/UserDataAccessInterface.js';
+import type { CreateUserData } from '../data/user/UserInputData.js';
+import { User } from '../model/UserModel.js';
 import { AuthUtils } from '../utils/authUtils.js';
 
 export class AuthService {
@@ -34,7 +36,17 @@ export class AuthService {
     }
 
     // hash password
-    // create user object
+    const hashedPass = this.authUtils.hashPassword(password);
+    const userInput = {
+      username: username,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      phoneNumber: phoneNumber,
+      passwordHash: hashedPass,
+    };
+
+    const user = this.userDAO.createUser(userInput);
     // generate token with userId and return.
   }
 }
