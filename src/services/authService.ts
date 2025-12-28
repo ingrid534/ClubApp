@@ -1,8 +1,5 @@
 import type { UserDataAccessInterface } from '../data/user/UserDataAccessInterface.js';
-import type { CreateUserData } from '../data/user/UserInputData.js';
-import { User } from '../model/UserModel.js';
 import { AuthUtils } from '../utils/authUtils.js';
-
 export class AuthService {
   userDAO: UserDataAccessInterface;
   authUtils: AuthUtils;
@@ -27,6 +24,7 @@ export class AuthService {
       ? this.userDAO.getUserByPhone(phoneNumber)
       : null;
 
+    // TODO: change this to personalized errors
     if (usernameExists != null) {
       throw new Error('Username already exists.');
     } else if (emailExists != null) {
@@ -47,6 +45,6 @@ export class AuthService {
     };
 
     const user = this.userDAO.createUser(userInput);
-    // generate token with userId and return.
+    // generate token
   }
 }

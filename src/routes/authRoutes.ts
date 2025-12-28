@@ -3,4 +3,8 @@ import jwt from 'jsonwebtoken';
 
 const router = Router();
 
-router.post('/signup', async (req, res))
+router.get('/authorized', function (req, res) {
+  res.send('Secured Resource');
+});
+
+export default router;
