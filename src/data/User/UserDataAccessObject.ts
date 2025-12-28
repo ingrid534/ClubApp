@@ -1,4 +1,4 @@
-import type { PrismaClient } from '../../generated/prisma/client.js';
+import { PrismaClient } from '../../generated/prisma/client.js';
 import type { UserDataAccessInterface } from './UserDataAccessInterface.js';
 import type { CreateUserData, UpdateUserData } from './UserInputData.js';
 import type { User } from '../../model/UserModel.js';
