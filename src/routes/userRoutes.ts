@@ -1,4 +1,6 @@
-import { User } from '../model/UserModel.js';
+import type { Request, Response } from 'express';
+import { Router } from 'express';
+
 import { UserDataAccessObject } from '../data/user/UserDataAccessObject.js';
 import { UserController } from '../controllers/userController.js';
 import prisma from '../data/client.js';
