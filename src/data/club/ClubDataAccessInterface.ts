@@ -43,7 +43,7 @@ export interface ClubDataAccessInterface {
    * Delete the club object associated with the given id.
    * @param clubId the ID of the club being deleted
    */
-  deleteClub(clubId: string): Promise<void>;
+  deleteClub(clubId: string): Promise<Club | null>;
 
   /**
    * Get the organizer of the given club.

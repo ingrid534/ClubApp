@@ -85,10 +85,17 @@ export class ClubDataAccessObject implements ClubDataAccessInterface {
     return club;
   }
 
-  async deleteClub(clubId: string): Promise<void> {
-    await this.prisma.club.delete({
+  async deleteClub(clubId: string): Promise<Club | null> {
+    const deletedClub = await this.prisma.club.delete({
       where: { id: clubId },
+      select: {
+        id: true,
+        name: true,
+        organizerId: true,
+        registered: true,
+      },
     });
+    return deletedClub;
   }
 
   async getOrganizer(clubId: string): Promise<User | null> {
