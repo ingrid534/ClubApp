@@ -53,6 +53,18 @@ export class ClubDataAccessObject implements ClubDataAccessInterface {
     return response;
   }
 
+  async getAllClubs(): Promise<Club[]> {
+    const response: Club[] = await this.prisma.club.findMany({
+      select: {
+        id: true,
+        name: true,
+        organizerId: true,
+        registered: true,
+      },
+    });
+    return response;
+  }
+
   async createClub(data: CreateClubInputData): Promise<Club | null> {
     // Create club
     const club: Club = await this.prisma.club.create({

@@ -29,6 +29,21 @@ export class EventDataAccessObject implements EventDataAccessInterface {
     return event;
   }
 
+  async getEvents(): Promise<Event[]> {
+    const events: Event[] = await this.prisma.event.findMany({
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        date: true,
+        location: true,
+        clubId: true,
+      },
+    });
+
+    return events;
+  }
+
   async createEvent(eventData: CreateEventInputData): Promise<Event | null> {
     const event: Event = await this.prisma.event.create({
       data: eventData,

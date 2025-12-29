@@ -27,6 +27,12 @@ export interface ClubDataAccessInterface {
   getClubsByIds(clubIds: string[]): Promise<Club[]>;
 
   /**
+   * Get all clubs
+   * @returns an array of all club objects
+   */
+  getAllClubs(): Promise<Club[]>;
+
+  /**
    * Create a new club object with the given data.
    * @param data the club data to create
    */
