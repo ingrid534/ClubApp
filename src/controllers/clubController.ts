@@ -1,32 +1,228 @@
+import type { Request, Response, NextFunction } from 'express';
 import type { ClubDataAccessInterface } from '../data/club/ClubDataAccessInterface.js';
-import type {
-  CreateClubInputData,
-  UpdateClubInputData,
-} from '../data/club/ClubInputData.js';
 import type { Club } from '../model/ClubModel.js';
+import type { Event } from '../model/EventModel.js';
 import type { User } from '../model/UserModel.js';
+import ClubService from '../services/clubService.js';
 
 export class ClubController {
-  private clubDao: ClubDataAccessInterface;
+  private clubDataAccessObject: ClubDataAccessInterface;
+  private clubService: ClubService;
 
-  constructor(clubDao: ClubDataAccessInterface) {
-    this.clubDao = clubDao;
+  constructor(clubDataAccessObject: ClubDataAccessInterface) {
+    this.clubDataAccessObject = clubDataAccessObject;
+    this.clubService = new ClubService(this.clubDataAccessObject);
   }
 
-  async createClub(clubData: CreateClubInputData) {}
+  async getAllClubs(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    try {
+      const clubs = await this.clubService.getAllClubs();
+      res.status(200).json(clubs);
+    } catch (error) {
+      next(error);
+    }
+  }
 
-  async getAllClubs() {}
+  async createClub(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    try {
+      if (!req.body) {
+        return res.status(400).json({ error: 'Request body cannot be null.' });
+      }
+      const { name, organizerId, registered } = req.body;
+      if (!name || !organizerId || registered === undefined) {
+        return res.status(400).json({ error: 'Missing required club fields.' });
+      }
+      const clubInput: Partial<Club> = {
+        name,
+        organizerId,
+        registered,
+      };
 
-  async getClubById(clubId: string): Promise<Club | null> {}
+      const club: Club = await this.clubService.createClub(clubInput);
+      res.status(201).json(club);
+    } catch (error) {
+      next(error);
+    }
+  }
 
-  async getClubFollowing(clubId: string): Promise<User[]> {}
+  async getClubById(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    if (!req.params.id) {
+      return res.status(400).json({ error: 'Id cannot be null.' });
+    }
+    try {
+      const club: Club | null = await this.clubService.getClubById(
+        req.params.id,
+      );
+      if (!club) {
+        return res.status(404).json({ error: 'Club not found.' });
+      }
+      return res.json(club);
+    } catch (error) {
+      next(error);
+    }
+  }
 
-  async getClubOrganizer(clubId: string): Promise<User | null> {}
+  async getClubFollowing(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    if (!req.params.id) {
+      return res.status(400).json({ error: 'Id cannot be null.' });
+    }
+    try {
+      const users: User[] = await this.clubService.getClubFollowing(
+        req.params.id,
+      );
+      if (!users) {
+        return res.status(404).json({ error: 'Club not found.' });
+      }
+      res.json(users);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getOrganizer(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    if (!req.params.id) {
+      return res.status(400).json({ error: 'Id cannot be null.' });
+    }
+    try {
+      const user: User | null = await this.clubService.getOrganizer(
+        req.params.id,
+      );
+      if (!user) {
+        return res.status(404).json({ error: 'Club or organizer not found.' });
+      }
+      res.json(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateOrganizer(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    if (!req.params.id) {
+      return res.status(400).json({ error: 'Id cannot be null.' });
+    }
+    if (!req.body.organizerId) {
+      return res.status(400).json({ error: 'OrganizerId cannot be null.' });
+    }
+    try {
+      const user: User | null = await this.clubService.updateOrganizer(
+        req.params.id,
+        req.body.organizerId,
+      );
+      if (!user) {
+        return res.status(404).json({ error: 'Club or organizer not found.' });
+      }
+      res.json(user);
+    } catch (error) {
+      next(error);
+    }
+  }
 
   async updateClub(
-    clubId: string,
-    clubData: UpdateClubInputData,
-  ): Promise<Club | null> {}
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    if (!req.params.id) {
+      return res.status(400).json({ error: 'Id cannot be null.' });
+    }
+    try {
+      const id = req.params.id;
+      const updatedClub: Partial<Club> = {};
+      if (req.body.name) updatedClub.name = req.body.name;
+      if (req.body.organizerId) updatedClub.organizerId = req.body.organizerId;
+      if (req.body.registered) updatedClub.registered = req.body.registered;
 
-  async deleteClub(clubId: string): Promise<Club | null> {}
+      const club: Club | null = await this.clubService.updateClub(
+        id,
+        updatedClub,
+      );
+      if (!club) {
+        return res.status(404).json({ error: 'Club not found.' });
+      }
+      res.status(200).json(club);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deleteClub(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ error: 'Id cannot be null.' });
+    }
+    try {
+      const club: Club | null = await this.clubService.deleteClub(id);
+      if (!club) {
+        return res.status(404).json({ error: 'Club not found.' });
+      }
+      res.status(200).json(club);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async checkClubRegistered(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ error: 'Id cannot be null.' });
+    }
+    try {
+      const club: Club | null = await this.clubService.getClubById(id);
+      if (!club) {
+        return res.status(404).json({ error: 'Club not found.' });
+      }
+      res.status(200).json({ registered: club.registered });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async listEvents(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ error: 'Id cannot be null.' });
+    }
+    try {
+      const events: Event[] = await this.clubService.listEvents(id);
+      res.status(200).json(events);
+    } catch (error) {
+      next(error);
+    }
+  }
 }

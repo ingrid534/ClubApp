@@ -1,10 +1,6 @@
 import type { Club } from '../../model/ClubModel.js';
 import type { User } from '../../model/UserModel.js';
 import type { Event } from '../../model/EventModel.js';
-import type {
-  CreateClubInputData,
-  UpdateClubInputData,
-} from './ClubInputData.js';
 
 export interface ClubDataAccessInterface {
   /**
@@ -36,14 +32,14 @@ export interface ClubDataAccessInterface {
    * Create a new club object with the given data.
    * @param data the club data to create
    */
-  createClub(data: CreateClubInputData): Promise<Club | null>;
+  createClub(data: Partial<Club>): Promise<Club | null>;
 
   /**
    * Update the club object with the given data.
    * @Return the updated club object after applying the given data.
    * @param data the updated club data
    */
-  updateClub(clubId: string, data: UpdateClubInputData): Promise<Club | null>;
+  updateClub(clubId: string, data: Partial<Club>): Promise<Club | null>;
 
   /**
    * Delete the club object associated with the given id.
