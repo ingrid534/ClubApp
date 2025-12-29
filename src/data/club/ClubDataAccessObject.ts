@@ -1,9 +1,5 @@
 import { PrismaClient } from '../../generated/prisma/client.js';
 import type { ClubDataAccessInterface } from './ClubDataAccessInterface.js';
-import type {
-  CreateClubInputData,
-  UpdateClubInputData,
-} from './ClubInputData.js';
 import type { Club } from '../../model/ClubModel.js';
 import type { User } from '../../model/UserModel.js';
 import type { Event } from '../../model/EventModel.js';
@@ -52,36 +48,45 @@ export class ClubDataAccessObject implements ClubDataAccessInterface {
     return response;
   }
 
-  async createClub(data: CreateClubInputData): Promise<Club | null> {
-    // Create club
-    const club: Club = await this.prisma.club.create({
-      data: data,
-      select: {
-        id: true,
-        name: true,
-        organizerId: true,
-        registered: true,
-      },
-    });
-    return club;
+  async createClub(data: Partial<Club>): Promise<Club | null> {
+    try {
+      const club: Club = await this.prisma.club.create({
+        data: {
+          name: data.name!,
+          organizerId: data.organizerId!,
+          registered: data.registered!,
+        },
+        select: {
+          id: true,
+          name: true,
+          organizerId: true,
+          registered: true,
+        },
+      });
+      return club;
+    } catch (err) {
+      console.error('Error creating club:', err);
+      return null;
+    }
   }
 
-  async updateClub(
-    clubId: string,
-    data: UpdateClubInputData,
-  ): Promise<Club | null> {
-    const club: Club = await this.prisma.club.update({
-      where: { id: clubId },
-      data: data,
-      select: {
-        id: true,
-        name: true,
-        organizerId: true,
-        registered: true,
-      },
-    });
-
-    return club;
+  async updateClub(clubId: string, data: Partial<Club>): Promise<Club | null> {
+    try {
+      const club: Club = await this.prisma.club.update({
+        where: { id: clubId },
+        data: data,
+        select: {
+          id: true,
+          name: true,
+          organizerId: true,
+          registered: true,
+        },
+      });
+      return club;
+    } catch (err) {
+      console.error('Error updating club:', err);
+      return null;
+    }
   }
 
   async deleteClub(clubId: string): Promise<Club | null> {

@@ -1,125 +1,40 @@
-import type { Request, Response, NextFunction } from 'express';
 import { Router } from 'express';
 import { ClubDataAccessObject } from '../data/club/ClubDataAccessObject.js';
 import { ClubController } from '../controllers/clubController.js';
-import prisma from '../data/client.js';
-import type { UpdateClubInputData } from '../data/club/ClubInputData.js';
+import prisma from '../config/client.js';
 
 const router = Router();
-const clubDao = new ClubDataAccessObject(prisma);
-const controller = new ClubController(clubDao);
+const clubDataAccessObject = new ClubDataAccessObject(prisma);
+const clubController = new ClubController(clubDataAccessObject);
 
 // create club
-router.post('/', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const club = await controller.createClub(req.body);
-    res.status(201).json(club);
-  } catch (error) {
-    next(error);
-  }
-});
+router.post('/create', clubController.createClub);
 
 // read all clubs
-router.get('/', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const clubs = await controller.getAllClubs();
-    res.status(200).json(clubs);
-  } catch (error) {
-    next(error);
-  }
-});
+router.get('/', clubController.getAllClubs);
 
 // read one club by id
-router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
-  if (!req.params.id) {
-    return res.status(400).json({ error: 'Id cannot be null.' });
-  }
-  try {
-    const club = await controller.getClubById(req.params.id);
-    if (!club) {
-      return res.status(404).json({ error: 'Club not found.' });
-    }
-    res.json(club);
-  } catch (error) {
-    next(error);
-  }
-});
-
-// get all club followers
-router.get(
-  '/:id/followers',
-  async (req: Request, res: Response, next: NextFunction) => {
-    if (!req.params.id) {
-      return res.status(400).json({ error: 'Id cannot be null.' });
-    }
-    try {
-      const users = await controller.getClubFollowing(req.params.id);
-      if (!users) {
-        return res.status(404).json({ error: 'Club not found.' });
-      }
-      res.json(users);
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+router.get('/:id', clubController.getClubById);
 
 // get the organizer for this club
-router.get(
-  '/:id/organizer',
-  async (req: Request, res: Response, next: NextFunction) => {
-    if (!req.params.id) {
-      return res.status(400).json({ error: 'Id cannot be null.' });
-    }
-    try {
-      const user = await controller.getClubOrganizer(req.params.id);
-      if (!user) {
-        return res.status(404).json({ error: 'Club or organizer not found.' });
-      }
-      res.json(user);
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+router.get('/:id/organizer', clubController.getOrganizer);
+
+// update the organizer for this club
+router.put('/:id/organizer', clubController.updateOrganizer);
 
 // update club
-router.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
-  if (!req.params.id) {
-    return res.status(400).json({ error: 'Id cannot be null.' });
-  }
-  try {
-    const updatedClub: UpdateClubInputData = {};
-    if (req.body.name) updatedClub.name = req.body.name;
-    if (req.body.organizerId) updatedClub.organizerId = req.body.organizerId;
-    if (req.body.registered) updatedClub.registered = req.body.registered;
+router.put('/:id', clubController.updateClub);
 
-    const club = await controller.updateClub(req.params.id, updatedClub);
-    if (!club) {
-      return res.status(404).json({ error: 'Club not found.' });
-    }
-    res.status(200).json(club);
-  } catch (error) {
-    next(error);
-  }
-});
+// delete club
+router.delete('/:id', clubController.deleteClub);
 
-router.delete(
-  '/:id',
-  async (req: Request, res: Response, next: NextFunction) => {
-    if (!req.params.id) {
-      return res.status(400).json({ error: 'Id cannot be null.' });
-    }
-    try {
-      const deletedClub = await controller.deleteClub(req.params.id);
-      if (!deletedClub) {
-        return res.status(404).json({ error: 'Club not found.' });
-      }
-      res.status(200).json(deletedClub);
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+// get all club followers
+router.get('/:id/followers', clubController.getClubFollowing);
+
+// check if club is registered
+router.get('/:id/registered', clubController.checkClubRegistered);
+
+// list all events for this club
+router.get('/:id/events', clubController.listEvents);
 
 export default router;
