@@ -8,9 +8,8 @@ export class UserController {
   }
 
   async createUser(userData: CreateUserData) {
-    // You may want to validate userData here
     return await this.userDao.createUser(userData);
   }
 
-  getAllUsers() {}
+  async getAllUsers() {}
 }

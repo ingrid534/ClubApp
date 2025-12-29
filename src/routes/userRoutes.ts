@@ -9,7 +9,9 @@ const router = Router();
 const userDao = new UserDataAccessObject(prisma);
 const controller = new UserController(userDao);
 
-// crud api implementation
+// create user
+// TODO: validate that req.body types are all valid for type CreateUserData (as needed for controller.createUser)
+// or use middleware to validate not sure
 router.post('/', async (req: Request, res: Response) => {
   try {
     const user = await controller.createUser(req.body);
