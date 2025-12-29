@@ -2,7 +2,7 @@ import type { Request, Response } from 'express';
 import { Router } from 'express';
 import { UserDataAccessObject } from '../data/user/UserDataAccessObject.js';
 import { UserController } from '../controllers/userController.js';
-import prisma from '../data/client.js';
+import prisma from '../config/client.js';
 
 // not sure if i should be importing prisma here
 const router = Router();

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { ClubDataAccessObject } from '../data/club/ClubDataAccessObject.js';
 import { ClubController } from '../controllers/clubController.js';
-import prisma from '../data/client.js';
+import prisma from '../config/client.js';
 
 const router = Router();
 const clubDataAccessObject = new ClubDataAccessObject(prisma);
