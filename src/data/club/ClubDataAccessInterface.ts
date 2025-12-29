@@ -8,6 +8,11 @@ import type {
 
 export interface ClubDataAccessInterface {
   /**
+   * Get all clubs.
+   */
+  getAllClubs(): Promise<Club[]>;
+
+  /**
    * Get club given its id.
    * @Return the club object associated with the given id.
    * @param clubId the ID of the club to be retrieved.

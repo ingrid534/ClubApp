@@ -15,6 +15,19 @@ export class ClubDataAccessObject implements ClubDataAccessInterface {
     this.prisma = prisma;
   }
 
+  async getAllClubs(): Promise<Club[]> {
+    const clubs = await this.prisma.club.findMany({
+      where: {},
+      select: {
+        id: true,
+        name: true,
+        organizerId: true,
+        registered: true,
+      },
+    });
+    return clubs;
+  }
+
   async getClubById(clubId: string): Promise<Club | null> {
     return await this.prisma.club.findUnique({
       where: { id: clubId },
