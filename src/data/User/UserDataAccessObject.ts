@@ -230,7 +230,7 @@ export class UserDataAccessObject implements UserDataAccessInterface {
    * @param userId the user to remove club from
    * @param clubId the club to remove from user's organizing clubs
    */
-  async removeOrganizingClub(userId: string, clubId: string): Promise<void> {
+  async deleteOrganizingClub(userId: string, clubId: string): Promise<void> {
     await this.prisma.user.update({
       where: { id: userId },
       data: {

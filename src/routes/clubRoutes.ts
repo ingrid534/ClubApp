@@ -8,33 +8,33 @@ const clubDataAccessObject = new ClubDataAccessObject(prisma);
 const clubController = new ClubController(clubDataAccessObject);
 
 // create club
-router.post('/create', clubController.createClub);
+router.post('/clubs/create', clubController.createClub);
 
 // read all clubs
-router.get('/', clubController.getAllClubs);
+router.get('/clubs/', clubController.getAllClubs);
 
 // read one club by id
-router.get('/:id', clubController.getClubById);
+router.get('/clubs/:id', clubController.getClubById);
 
 // get the organizer for this club
-router.get('/:id/organizer', clubController.getOrganizer);
+router.get('/clubs/:id/organizer', clubController.getOrganizer);
 
 // update the organizer for this club
-router.put('/:id/organizer', clubController.updateOrganizer);
+router.put('/clubs/:id/organizer', clubController.updateOrganizer);
 
 // update club
-router.put('/:id', clubController.updateClub);
+router.put('/clubs/:id', clubController.updateClub);
 
 // delete club
-router.delete('/:id', clubController.deleteClub);
+router.delete('/clubs/:id', clubController.deleteClub);
 
 // get all club followers
-router.get('/:id/followers', clubController.getClubFollowing);
+router.get('/clubs/:id/followers', clubController.getClubFollowing);
 
 // check if club is registered
-router.get('/:id/registered', clubController.checkClubRegistered);
+router.get('/clubs/:id/registered', clubController.checkClubRegistered);
 
 // list all events for this club
-router.get('/:id/events', clubController.listEvents);
+router.get('/clubs/:id/events', clubController.listEvents);
 
 export default router;

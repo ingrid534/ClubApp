@@ -139,6 +139,14 @@ export class UserController {
     }
   }
 
+  async addClubFollowing() {}
+
+  async deleteClubFollowing() {}
+
+  async addOrganizingClub() {}
+
+  async deleteOrganizingClub() {}
+
   async deleteUser(
     req: Request,
     res: Response,

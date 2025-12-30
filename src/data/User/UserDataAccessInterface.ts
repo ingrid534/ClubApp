@@ -75,7 +75,7 @@ export interface UserDataAccessInterface {
    * @param userId the user to remove club from
    * @param clubId the club to remove from user's organizing clubs
    */
-  removeOrganizingClub(userId: string, clubId: string): Promise<void>;
+  deleteOrganizingClub(userId: string, clubId: string): Promise<void>;
 
   /**
    * Add the club associated with the given id to user's following

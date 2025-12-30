@@ -1,4 +1,3 @@
-import type { Request, Response } from 'express';
 import { Router } from 'express';
 import { UserDataAccessObject } from '../data/user/UserDataAccessObject.js';
 import { UserController } from '../controllers/userController.js';
@@ -10,24 +9,36 @@ const userDao = new UserDataAccessObject(prisma);
 const userController = new UserController(userDao);
 
 // create user
-router.post('/create', userController.createUser);
+router.post('/users/create', userController.createUser);
 
 // read all users
-router.get('/', userController.getAllUsers);
+router.get('/users/', userController.getAllUsers);
 
 // read one user by id
-router.get('/:id', userController.getUserById);
+router.get('/users/:id', userController.getUserById);
 
 // get all the clubs followed by this user
-router.get('/:id/following', userController.getFollowingClubs);
+router.get('/users/:id/following', userController.getFollowingClubs);
 
 // get all the clubs organized by this user
-router.get('/:id/organizing', userController.getOrganizingClubs);
+router.get('/users/:id/organizing', userController.getOrganizingClubs);
 
 // update user
-router.put('/:id', userController.updateUser);
+router.put('/users/:id', userController.updateUser);
+
+// add a club to user's following
+router.post('/users/:id/following', userController.addClubFollowing);
+
+// remove a club from user's following
+router.delete('/users/:id/following', userController.deleteClubFollowing);
+
+// add a club to this user's organizing clubs
+router.patch('/users/:id/organizing', userController.addOrganizingClub);
+
+// remove a club from user's organizing clubs
+router.patch('/users/:id/organizing', userController.deleteOrganizingClub);
 
 // delete user
-router.delete('/:id', userController.deleteUser);
+router.delete('/users/:id', userController.deleteUser);
 
 export default router;
