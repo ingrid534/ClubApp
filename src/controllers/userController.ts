@@ -1,5 +1,4 @@
 import type { UserDataAccessInterface } from '../data/user/UserDataAccessInterface.js';
-import type { CreateUserData } from '../data/user/UserInputData.js';
 import type { Club } from '../model/ClubModel.js';
 import type { User } from '../model/UserModel.js';
 import UserService from '../services/userService.js';
@@ -84,7 +83,7 @@ export class UserController {
       const clubs: Club[] = await this.userService.getFollowingClubs(
         req.params.id,
       );
-      if (!clubs) {
+      if (clubs == null) {
         return res.status(404).json({ error: 'User not found.' });
       }
       res.json(clubs);
@@ -140,5 +139,23 @@ export class UserController {
     }
   }
 
-  async deleteUser() {}
+  async deleteUser(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ error: 'Id cannot be null.' });
+    }
+    try {
+      const user: User | null = await this.userService.deleteUser(id);
+      if (!user) {
+        return res.status(404).json({ error: 'User not found.' });
+      }
+      res.status(200).json(user);
+    } catch (error) {
+      next(error);
+    }
+  }
 }

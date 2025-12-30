@@ -1,6 +1,5 @@
 import type { User } from '../../model/UserModel.js';
 import type { Club } from '../../model/ClubModel.js';
-import type { CreateUserData, UpdateUserData } from './UserInputData.js';
 
 export interface UserDataAccessInterface {
   /**
@@ -8,7 +7,7 @@ export interface UserDataAccessInterface {
    * @param user JSON object with user data
    * @returns the new user object
    */
-  createUser(data: CreateUserData): Promise<User | null>;
+  createUser(data: Partial<User>): Promise<User | null>;
 
   /**
    * Read all users
@@ -62,7 +61,7 @@ export interface UserDataAccessInterface {
    * @param userId the id of user to be updated
    * @param newData the new updated data for user
    */
-  updateUser(userId: string, data: UpdateUserData): Promise<User>;
+  updateUser(userId: string, data: Partial<User>): Promise<User>;
 
   /**
    * Update the user's organizing clubs with the new club.
@@ -79,8 +78,16 @@ export interface UserDataAccessInterface {
   removeOrganizingClub(userId: string, clubId: string): Promise<void>;
 
   /**
+   * Add the club associated with the given id to user's following
+   * @param userId the user to which to add club
+   * @param clubId the club to add to following
+   */
+  addClubFollowing(userId: string, clubId: string): Promise<Club>;
+
+  /**
    * Delete the club associated with the given id from user's following ('unfollow' club).
    * @param userId the user from which to remove the club
+   * @param clubId the club to remove from following
    */
   deleteClubFollowing(userId: string, clubId: string): Promise<void>;
 
@@ -88,5 +95,5 @@ export interface UserDataAccessInterface {
    * Delete the user associated with the given id.
    * @param userId the id of user to be deleted
    */
-  deleteUser(userId: string): Promise<void>;
+  deleteUser(userId: string): Promise<User | null>;
 }

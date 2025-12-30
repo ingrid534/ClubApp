@@ -10,18 +10,6 @@ const userDao = new UserDataAccessObject(prisma);
 const userController = new UserController(userDao);
 
 // create user
-// TODO: validate that req.body types are all valid for type CreateUserData (as needed for controller.createUser)
-// or use middleware to validate not sure
-// router.post('/', async (req: Request, res: Response) => {
-//   try {
-//     const user = await controller.createUser(req.body);
-//     res.status(201).json(user);
-//   } catch (error) {
-//     res.status(400).json({ error: (error as Error).message });
-//   }
-// });
-
-// create user
 router.post('/create', userController.createUser);
 
 // read all users
@@ -31,6 +19,15 @@ router.get('/', userController.getAllUsers);
 router.get('/:id', userController.getUserById);
 
 // get all the clubs followed by this user
-router.get('/:id/clubFollowing', userController.getFollowingClubs);
+router.get('/:id/following', userController.getFollowingClubs);
+
+// get all the clubs organized by this user
+router.get('/:id/organizing', userController.getOrganizingClubs);
+
+// update user
+router.put('/:id', userController.updateUser);
+
+// delete user
+router.delete('/:id', userController.deleteUser);
 
 export default router;

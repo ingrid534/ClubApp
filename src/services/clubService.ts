@@ -11,9 +11,6 @@ class ClubService {
 
   async getAllClubs(): Promise<Club[]> {
     const clubs: Club[] = await this.clubDao.getAllClubs();
-    if (!clubs) {
-      throw new Error('No clubs found');
-    }
     return clubs;
   }
 

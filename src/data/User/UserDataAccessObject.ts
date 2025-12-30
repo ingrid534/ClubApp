@@ -2,6 +2,7 @@ import { PrismaClient } from '../../generated/prisma/client.js';
 import type { UserDataAccessInterface } from './UserDataAccessInterface.js';
 import type { CreateUserData, UpdateUserData } from './UserInputData.js';
 import type { User } from '../../model/UserModel.js';
+import type { Club } from '../../model/ClubModel.js';
 
 export class UserDataAccessObject implements UserDataAccessInterface {
   prisma: PrismaClient;
@@ -240,6 +241,26 @@ export class UserDataAccessObject implements UserDataAccessInterface {
     });
   }
 
+  async addClubFollowing(userId: string, clubId: string): Promise<Club> {
+    const clubFollowing = await this.prisma.clubFollowing.create({
+      data: {
+        userId: userId,
+        clubId: clubId,
+      },
+      select: {
+        club: {
+          select: {
+            id: true,
+            name: true,
+            organizerId: true,
+            registered: true,
+          },
+        },
+      },
+    });
+    return clubFollowing.club;
+  }
+
   /**
    * Delete the club associated with the given id from user's following ('unfollow' club).
    * @param userId the user from which to remove the club
@@ -260,11 +281,12 @@ export class UserDataAccessObject implements UserDataAccessInterface {
    * @param userId the id of user to be deleted
    * @returns the deleted user object (mostly for debugging)
    */
-  async deleteUser(userId: string): Promise<void> {
-    await this.prisma.user.delete({
+  async deleteUser(userId: string): Promise<User | null> {
+    const deletedUser = await this.prisma.user.delete({
       where: {
         id: userId,
       },
     });
+    return deletedUser;
   }
 }
