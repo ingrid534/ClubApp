@@ -1,9 +1,9 @@
-import type { Club } from '../model/ClubModel.js';
-import type { User } from '../model/UserModel.js';
-import type { Event } from '../model/EventModel.js';
-import type { ClubDataAccessInterface } from '../data/club/ClubDataAccessInterface.js';
+import type { Club } from '../models/ClubModel.js';
+import type { User } from '../models/UserModel.js';
+import type { Event } from '../models/EventModel.js';
+import type ClubDataAccessInterface from '../data/club/ClubDataAccessInterface.js';
 
-class ClubService {
+export default class ClubService {
   private clubDao: ClubDataAccessInterface;
   constructor(clubDao: ClubDataAccessInterface) {
     this.clubDao = clubDao;
@@ -89,5 +89,3 @@ class ClubService {
     return events;
   }
 }
-
-export default ClubService;

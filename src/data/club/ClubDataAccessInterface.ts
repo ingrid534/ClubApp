@@ -1,8 +1,8 @@
-import type { Club } from '../../model/ClubModel.js';
-import type { User } from '../../model/UserModel.js';
-import type { Event } from '../../model/EventModel.js';
+import type { Club } from '../../models/ClubModel.js';
+import type { User } from '../../models/UserModel.js';
+import type { Event } from '../../models/EventModel.js';
 
-export interface ClubDataAccessInterface {
+export default interface ClubDataAccessInterface {
   /**
    * Get all clubs.
    */

@@ -1,11 +1,10 @@
 import { Router } from 'express';
-import { UserDataAccessObject } from '../data/user/UserDataAccessObject.js';
-import { UserController } from '../controllers/userController.js';
-import prisma from '../config/client.js';
+import UserDataAccessObject from '../data/user/UserDataAccessObject.js';
+import UserController from '../controllers/userController.js';
 
 // not sure if i should be importing prisma here
 const router = Router();
-const userDao = new UserDataAccessObject(prisma);
+const userDao = new UserDataAccessObject();
 const userController = new UserController(userDao);
 
 // create user

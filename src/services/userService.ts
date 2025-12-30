@@ -1,8 +1,8 @@
-import type { UserDataAccessInterface } from '../data/user/UserDataAccessInterface.js';
-import type { Club } from '../model/ClubModel.js';
-import type { User } from '../model/UserModel.js';
+import type { Club } from '../models/ClubModel.js';
+import type { User } from '../models/UserModel.js';
+import type UserDataAccessInterface from '../data/user/UserDataAccessInterface.js';
 
-class UserService {
+export default class UserService {
   private userDao: UserDataAccessInterface;
 
   constructor(userDao: UserDataAccessInterface) {
@@ -53,5 +53,3 @@ class UserService {
     return user;
   }
 }
-
-export default UserService;
