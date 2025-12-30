@@ -1,5 +1,4 @@
 import type UserDataAccessInterface from './UserDataAccessInterface.js';
-import type { CreateUserData, UpdateUserData } from './UserInputData.js';
 import type { User } from '../../models/UserModel.js';
 import type { Club } from '../../models/ClubModel.js';
 import prisma from '../../config/client.js';
@@ -10,7 +9,7 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
    * @param user JSON object with user data
    * @returns the new user object
    */
-  async createUser(user: CreateUserData) {
+  async createUser(user: User) {
     const newUser = await prisma.user.create({
       data: {
         firstName: user.firstName,
@@ -18,7 +17,6 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
         email: user.email,
         phoneNumber: user.phoneNumber,
         username: user.username,
-        passwordHash: user.passwordHash,
       },
     });
     return newUser;
@@ -201,7 +199,7 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
    * @param userId the id of user to be updated
    * @param newData the new updated data for user
    */
-  async updateUser(userId: string, newData: UpdateUserData) {
+  async updateUser(userId: string, newData: Partial<User>) {
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: newData,
