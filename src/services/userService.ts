@@ -37,6 +37,24 @@ export default class UserService {
     return res;
   }
 
+  async addOrganizingClub(userId: string, clubId: string): Promise<void> {
+    await this.userDao.addOrganizingClub(userId, clubId);
+  }
+
+  async deleteOrganizingClub(userId: string, clubId: string): Promise<void> {
+    await this.userDao.deleteOrganizingClub(userId, clubId);
+  }
+
+  async addClubFollowing(userId: string, clubId: string): Promise<Club> {
+    const club = this.userDao.addClubFollowing(userId, clubId);
+    return club;
+  }
+
+  async deleteClubFollowing(userId: string, clubId: string): Promise<Club> {
+    const club = this.userDao.deleteClubFollowing(userId, clubId);
+    return club;
+  }
+
   async updateUser(userId: string, userData: Partial<User>): Promise<User> {
     const user: User | null = await this.userDao.updateUser(userId, userData);
     if (!user) {

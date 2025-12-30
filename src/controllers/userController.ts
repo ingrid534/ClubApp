@@ -161,7 +161,24 @@ export default class UserController {
     }
   }
 
-  async addOrganizingClub() {}
+  // TODO: idk how to check that this method actually worked?
+  async addOrganizingClub(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    if (!req.params.id || req.body.clubId) {
+      return res.status(400).json({ error: 'Id cannot be null.' });
+    }
+    const userId = req.params.id;
+    const clubId = req.body.clubId;
+    try {
+      await this.userService.addOrganizingClub(userId, clubId);
+      return res.status(204).send();
+    } catch (error) {
+      next(error);
+    }
+  }
 
   async deleteOrganizingClub(
     req: Request,
