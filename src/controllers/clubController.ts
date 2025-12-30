@@ -6,12 +6,10 @@ import type { User } from '../model/UserModel.js';
 import ClubService from '../services/clubService.js';
 
 export class ClubController {
-  private clubDataAccessObject: ClubDataAccessInterface;
   private clubService: ClubService;
 
   constructor(clubDataAccessObject: ClubDataAccessInterface) {
-    this.clubDataAccessObject = clubDataAccessObject;
-    this.clubService = new ClubService(this.clubDataAccessObject);
+    this.clubService = new ClubService(clubDataAccessObject);
   }
 
   async getAllClubs(
