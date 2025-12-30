@@ -188,6 +188,20 @@ export class UserDataAccessObject implements UserDataAccessInterface {
     return clubs;
   }
 
+  async checkOrganizing(userId: string, clubId: string): Promise<boolean> {
+    const res = await this.prisma.user.findFirst({
+      where: {
+        id: userId,
+        organizedClubs: {
+          some: {
+            id: clubId,
+          },
+        },
+      },
+    });
+    return !(res == null);
+  }
+
   /**
    * Update the user with the given userId with the new data.
    * @param userId the id of user to be updated
@@ -265,15 +279,26 @@ export class UserDataAccessObject implements UserDataAccessInterface {
    * Delete the club associated with the given id from user's following ('unfollow' club).
    * @param userId the user from which to remove the club
    */
-  async deleteClubFollowing(userId: string, clubId: string): Promise<void> {
-    await this.prisma.clubFollowing.delete({
+  async deleteClubFollowing(userId: string, clubId: string): Promise<Club> {
+    const deletedFollowing = await this.prisma.clubFollowing.delete({
       where: {
         userId_clubId: {
           userId: userId,
           clubId: clubId,
         },
       },
+      select: {
+        club: {
+          select: {
+            id: true,
+            name: true,
+            organizerId: true,
+            registered: true,
+          },
+        },
+      },
     });
+    return deletedFollowing.club;
   }
 
   /**

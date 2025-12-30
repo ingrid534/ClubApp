@@ -57,6 +57,13 @@ export interface UserDataAccessInterface {
   getOrganizingClubs(userId: string): Promise<Club[]>;
 
   /**
+   * Check whether the given user is organizing the given club.
+   * @param userId the id of the user to check
+   * @param clubId the id of the club to check
+   */
+  checkOrganizing(userId: string, clubId: string): Promise<boolean>;
+
+  /**
    * Update the user with the given userId with the new data.
    * @param userId the id of user to be updated
    * @param newData the new updated data for user
@@ -89,7 +96,7 @@ export interface UserDataAccessInterface {
    * @param userId the user from which to remove the club
    * @param clubId the club to remove from following
    */
-  deleteClubFollowing(userId: string, clubId: string): Promise<void>;
+  deleteClubFollowing(userId: string, clubId: string): Promise<Club>;
 
   /**
    * Delete the user associated with the given id.

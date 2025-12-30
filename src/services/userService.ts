@@ -9,14 +9,6 @@ class UserService {
     this.userDao = userDao;
   }
 
-  async createUser(userData: Partial<User>): Promise<User> {
-    const user: User | null = await this.userDao.createUser(userData);
-    if (!user) {
-      throw new Error('Failed to create user.');
-    }
-    return user;
-  }
-
   async getAllUsers(): Promise<User[]> {
     const users: User[] = await this.userDao.getAllUsers();
     return users;
@@ -38,6 +30,11 @@ class UserService {
   async getOrganizingClubs(userId: string): Promise<Club[]> {
     const clubs: Club[] | null = await this.userDao.getOrganizingClubs(userId);
     return clubs;
+  }
+
+  async checkOrganizing(userId: string, clubId: string): Promise<boolean> {
+    const res = await this.userDao.checkOrganizing(userId, clubId);
+    return res;
   }
 
   async updateUser(userId: string, userData: Partial<User>): Promise<User> {
