@@ -1,7 +1,7 @@
-import type { User } from '../../model/UserModel.js';
-import type { Club } from '../../model/ClubModel.js';
+import type { User } from '../../models/UserModel.js';
+import type { Club } from '../../models/ClubModel.js';
 
-export interface UserDataAccessInterface {
+export default interface UserDataAccessInterface {
   /**
    * Create new user.
    * @param user JSON object with user data

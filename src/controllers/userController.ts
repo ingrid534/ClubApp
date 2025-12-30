@@ -1,10 +1,10 @@
-import type { UserDataAccessInterface } from '../data/user/UserDataAccessInterface.js';
-import type { Club } from '../model/ClubModel.js';
-import type { User } from '../model/UserModel.js';
+import type UserDataAccessInterface from '../data/user/UserDataAccessInterface.js';
+import type { Club } from '../models/ClubModel.js';
+import type { User } from '../models/UserModel.js';
 import UserService from '../services/userService.js';
 import type { Response, Request, NextFunction } from 'express';
 
-export class UserController {
+export default class UserController {
   private userService: UserService;
 
   constructor(userDataAccessObject: UserDataAccessInterface) {

@@ -1,11 +1,11 @@
 import type { Request, Response, NextFunction } from 'express';
-import type { ClubDataAccessInterface } from '../data/club/ClubDataAccessInterface.js';
-import type { Club } from '../model/ClubModel.js';
-import type { Event } from '../model/EventModel.js';
-import type { User } from '../model/UserModel.js';
+import type ClubDataAccessInterface from '../data/club/ClubDataAccessInterface.js';
+import type { Club } from '../models/ClubModel.js';
+import type { Event } from '../models/EventModel.js';
+import type { User } from '../models/UserModel.js';
 import ClubService from '../services/clubService.js';
 
-export class ClubController {
+export default class ClubController {
   private clubService: ClubService;
 
   constructor(clubDataAccessObject: ClubDataAccessInterface) {

@@ -1,7 +1,7 @@
-import type { Club } from '../../model/ClubModel.js';
-import type { Category } from '../../model/CategoryModel.js';
+import type { Club } from '../../models/ClubModel.js';
+import type { Category } from '../../models/CategoryModel.js';
 
-export interface CategoryDataAccessInterface {
+export default interface CategoryDataAccessInterface {
   /**
    * Get all catagories
    */

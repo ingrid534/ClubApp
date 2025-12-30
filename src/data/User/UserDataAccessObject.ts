@@ -1,23 +1,17 @@
-import { PrismaClient } from '../../generated/prisma/client.js';
-import type { UserDataAccessInterface } from './UserDataAccessInterface.js';
+import type UserDataAccessInterface from './UserDataAccessInterface.js';
 import type { CreateUserData, UpdateUserData } from './UserInputData.js';
-import type { User } from '../../model/UserModel.js';
-import type { Club } from '../../model/ClubModel.js';
+import type { User } from '../../models/UserModel.js';
+import type { Club } from '../../models/ClubModel.js';
+import prisma from '../../config/client.js';
 
-export class UserDataAccessObject implements UserDataAccessInterface {
-  prisma: PrismaClient;
-
-  constructor(prisma: PrismaClient) {
-    this.prisma = prisma;
-  }
-
+export default class UserDataAccessObject implements UserDataAccessInterface {
   /**
    * Create new user.
    * @param user JSON object with user data
    * @returns the new user object
    */
   async createUser(user: CreateUserData) {
-    const newUser = await this.prisma.user.create({
+    const newUser = await prisma.user.create({
       data: {
         firstName: user.firstName,
         lastName: user.lastName,
@@ -35,7 +29,7 @@ export class UserDataAccessObject implements UserDataAccessInterface {
    * @returns all of the user objects in the database
    */
   async getAllUsers() {
-    const users = await this.prisma.user.findMany({
+    const users = await prisma.user.findMany({
       where: {},
       select: {
         id: true,
@@ -54,7 +48,7 @@ export class UserDataAccessObject implements UserDataAccessInterface {
    * @param userIds the array of user ids
    */
   async getUsersById(userIds: string[]) {
-    const users: User[] = await this.prisma.user.findMany({
+    const users: User[] = await prisma.user.findMany({
       where: { id: { in: userIds } },
       select: {
         id: true,
@@ -74,7 +68,7 @@ export class UserDataAccessObject implements UserDataAccessInterface {
    * @returns the user object
    */
   async getUserById(userId: string) {
-    const user = await this.prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { id: userId },
       select: {
         id: true,
@@ -94,7 +88,7 @@ export class UserDataAccessObject implements UserDataAccessInterface {
    * @returns the user object
    */
   async getUserByEmail(email: string) {
-    const user = await this.prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { email: email },
       select: {
         id: true,
@@ -114,7 +108,7 @@ export class UserDataAccessObject implements UserDataAccessInterface {
    * @returns the user object
    */
   async getUserByPhone(phoneNum: string) {
-    const user = await this.prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { phoneNumber: phoneNum },
       select: {
         id: true,
@@ -134,7 +128,7 @@ export class UserDataAccessObject implements UserDataAccessInterface {
    * @returns the user object
    */
   async getUserByUsername(username: string) {
-    const user = await this.prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { username: username },
       select: {
         id: true,
@@ -154,7 +148,7 @@ export class UserDataAccessObject implements UserDataAccessInterface {
    * @returns the club ids
    */
   async getFollowingClubs(userId: string) {
-    const clubs = await this.prisma.clubFollowing.findMany({
+    const clubs = await prisma.clubFollowing.findMany({
       where: { userId: userId },
       select: {
         club: {
@@ -176,7 +170,7 @@ export class UserDataAccessObject implements UserDataAccessInterface {
    * @returns the club objects
    */
   async getOrganizingClubs(userId: string) {
-    const clubs = await this.prisma.club.findMany({
+    const clubs = await prisma.club.findMany({
       where: { organizerId: userId },
       select: {
         id: true,
@@ -194,7 +188,7 @@ export class UserDataAccessObject implements UserDataAccessInterface {
    * @param newData the new updated data for user
    */
   async updateUser(userId: string, newData: UpdateUserData) {
-    const updatedUser = await this.prisma.user.update({
+    const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: newData,
       select: {
@@ -215,7 +209,7 @@ export class UserDataAccessObject implements UserDataAccessInterface {
    * @param clubId the id of the new club user is organizing
    */
   async addOrganizingClub(userId: string, clubId: string): Promise<void> {
-    await this.prisma.user.update({
+    await prisma.user.update({
       where: { id: userId },
       data: {
         organizedClubs: {
@@ -231,7 +225,7 @@ export class UserDataAccessObject implements UserDataAccessInterface {
    * @param clubId the club to remove from user's organizing clubs
    */
   async deleteOrganizingClub(userId: string, clubId: string): Promise<void> {
-    await this.prisma.user.update({
+    await prisma.user.update({
       where: { id: userId },
       data: {
         organizedClubs: {
@@ -242,7 +236,7 @@ export class UserDataAccessObject implements UserDataAccessInterface {
   }
 
   async addClubFollowing(userId: string, clubId: string): Promise<Club> {
-    const clubFollowing = await this.prisma.clubFollowing.create({
+    const clubFollowing = await prisma.clubFollowing.create({
       data: {
         userId: userId,
         clubId: clubId,
@@ -266,7 +260,7 @@ export class UserDataAccessObject implements UserDataAccessInterface {
    * @param userId the user from which to remove the club
    */
   async deleteClubFollowing(userId: string, clubId: string): Promise<void> {
-    await this.prisma.clubFollowing.delete({
+    await prisma.clubFollowing.delete({
       where: {
         userId_clubId: {
           userId: userId,
@@ -282,7 +276,7 @@ export class UserDataAccessObject implements UserDataAccessInterface {
    * @returns the deleted user object (mostly for debugging)
    */
   async deleteUser(userId: string): Promise<User | null> {
-    const deletedUser = await this.prisma.user.delete({
+    const deletedUser = await prisma.user.delete({
       where: {
         id: userId,
       },

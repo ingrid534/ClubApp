@@ -1,17 +1,11 @@
-import { PrismaClient } from '../../generated/prisma/client.js';
-import type { CategoryDataAccessInterface } from './catagoryDataAccessInterface.js';
-import type { Category } from '../../model/CategoryModel.js';
-import type { Club } from '../../model/ClubModel.js';
+import type CategoryDataAccessInterface from './catagoryDataAccessInterface.js';
+import type { Category } from '../../models/CategoryModel.js';
+import type { Club } from '../../models/ClubModel.js';
+import prisma from '../../config/client.js';
 
-export class CategoryDataAccess implements CategoryDataAccessInterface {
-  prisma: PrismaClient;
-
-  constructor(prisma: PrismaClient) {
-    this.prisma = prisma;
-  }
-
+export default class CategoryDataAccess implements CategoryDataAccessInterface {
   async getCatagories(): Promise<Category[]> {
-    const categories: Category[] = await this.prisma.category.findMany({
+    const categories: Category[] = await prisma.category.findMany({
       select: { id: true, name: true, description: true },
     });
 
@@ -19,7 +13,7 @@ export class CategoryDataAccess implements CategoryDataAccessInterface {
   }
 
   async getClubsByCatagory(catagoryId: string): Promise<Club[]> {
-    const response = await this.prisma.clubCategories.findMany({
+    const response = await prisma.clubCategories.findMany({
       where: { categoryId: catagoryId },
       select: {
         club: {
@@ -37,7 +31,7 @@ export class CategoryDataAccess implements CategoryDataAccessInterface {
   }
 
   async addClubCatagory(clubId: string, catagory: string): Promise<void> {
-    await this.prisma.clubCategories.create({
+    await prisma.clubCategories.create({
       data: {
         clubId: clubId,
         categoryId: catagory,
@@ -46,7 +40,7 @@ export class CategoryDataAccess implements CategoryDataAccessInterface {
   }
 
   async deleteClubCatagory(clubId: string, catagory: string): Promise<void> {
-    await this.prisma.clubCategories.deleteMany({
+    await prisma.clubCategories.deleteMany({
       where: {
         clubId: clubId,
         categoryId: catagory,
@@ -59,11 +53,11 @@ export class CategoryDataAccess implements CategoryDataAccessInterface {
     catagoryIds: string[],
   ): Promise<void> {
     // delete all categories
-    await this.prisma.clubCategories.deleteMany({
+    await prisma.clubCategories.deleteMany({
       where: { clubId: clubId },
     });
 
-    await this.prisma.clubCategories.createMany({
+    await prisma.clubCategories.createMany({
       data: catagoryIds.map((categoryId) => ({
         clubId: clubId,
         categoryId: categoryId,

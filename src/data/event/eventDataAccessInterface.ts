@@ -2,9 +2,9 @@ import type {
   CreateEventInputData,
   UpdateEventInputData,
 } from './eventInputData.js';
-import type { Event } from '../../model/EventModel.js';
+import type { Event } from '../../models/EventModel.js';
 
-export interface EventDataAccessInterface {
+export default interface EventDataAccessInterface {
   /**
    * Get event by id
    *
