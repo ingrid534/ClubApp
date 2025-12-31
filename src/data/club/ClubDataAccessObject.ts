@@ -1,7 +1,8 @@
-import type ClubDataAccessInterface from './ClubDataAccessInterface.js';
+import type ClubDataAccessInterface from './clubDataAccessInterface.js';
 import type { Club } from '../../models/ClubModel.js';
 import type { User } from '../../models/UserModel.js';
 import type { Event } from '../../models/EventModel.js';
+import type { CreateClubData, UpdateClubData } from './ClubInputData.js';
 import prisma from '../../config/client.js';
 
 export default class ClubDataAccessObject implements ClubDataAccessInterface {
@@ -11,6 +12,7 @@ export default class ClubDataAccessObject implements ClubDataAccessInterface {
       select: {
         id: true,
         name: true,
+        description: true,
         organizerId: true,
         registered: true,
       },
@@ -23,6 +25,7 @@ export default class ClubDataAccessObject implements ClubDataAccessInterface {
       select: {
         id: true,
         name: true,
+        description: true,
         organizerId: true,
         registered: true,
       },
@@ -35,6 +38,7 @@ export default class ClubDataAccessObject implements ClubDataAccessInterface {
       select: {
         id: true,
         name: true,
+        description: true,
         organizerId: true,
         registered: true,
       },
@@ -42,17 +46,14 @@ export default class ClubDataAccessObject implements ClubDataAccessInterface {
     return response;
   }
 
-  async createClub(data: Partial<Club>): Promise<Club | null> {
+  async createClub(data: CreateClubData): Promise<Club | null> {
     try {
       const club: Club = await prisma.club.create({
-        data: {
-          name: data.name!,
-          organizerId: data.organizerId!,
-          registered: data.registered!,
-        },
+        data,
         select: {
           id: true,
           name: true,
+          description: true,
           organizerId: true,
           registered: true,
         },
@@ -64,7 +65,7 @@ export default class ClubDataAccessObject implements ClubDataAccessInterface {
     }
   }
 
-  async updateClub(clubId: string, data: Partial<Club>): Promise<Club | null> {
+  async updateClub(clubId: string, data: UpdateClubData): Promise<Club | null> {
     try {
       const club: Club = await prisma.club.update({
         where: { id: clubId },
@@ -72,6 +73,7 @@ export default class ClubDataAccessObject implements ClubDataAccessInterface {
         select: {
           id: true,
           name: true,
+          description: true,
           organizerId: true,
           registered: true,
         },
@@ -89,6 +91,7 @@ export default class ClubDataAccessObject implements ClubDataAccessInterface {
       select: {
         id: true,
         name: true,
+        description: true,
         organizerId: true,
         registered: true,
       },

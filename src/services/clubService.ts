@@ -1,7 +1,7 @@
 import type { Club } from '../models/ClubModel.js';
 import type { User } from '../models/UserModel.js';
 import type { Event } from '../models/EventModel.js';
-import type ClubDataAccessInterface from '../data/club/ClubDataAccessInterface.js';
+import type ClubDataAccessInterface from '../data/club/clubDataAccessInterface.js';
 
 export default class ClubService {
   private clubDao: ClubDataAccessInterface;

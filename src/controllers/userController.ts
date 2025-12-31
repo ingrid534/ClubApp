@@ -1,4 +1,4 @@
-import type UserDataAccessInterface from '../data/user/UserDataAccessInterface.js';
+import type UserDataAccessInterface from '../data/user/userDataAccessInterface.js';
 import type { Club } from '../models/ClubModel.js';
 import type { User } from '../models/UserModel.js';
 import UserService from '../services/userService.js';

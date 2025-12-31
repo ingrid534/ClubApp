@@ -1,6 +1,7 @@
 import type { Club } from '../../models/ClubModel.js';
 import type { User } from '../../models/UserModel.js';
 import type { Event } from '../../models/EventModel.js';
+import type { CreateClubData, UpdateClubData } from './ClubInputData.js';
 
 export default interface ClubDataAccessInterface {
   /**
@@ -32,14 +33,14 @@ export default interface ClubDataAccessInterface {
    * Create a new club object with the given data.
    * @param data the club data to create
    */
-  createClub(data: Partial<Club>): Promise<Club | null>;
+  createClub(data: CreateClubData): Promise<Club | null>;
 
   /**
    * Update the club object with the given data.
    * @Return the updated club object after applying the given data.
    * @param data the updated club data
    */
-  updateClub(clubId: string, data: Partial<Club>): Promise<Club | null>;
+  updateClub(clubId: string, data: UpdateClubData): Promise<Club | null>;
 
   /**
    * Delete the club object associated with the given id.
@@ -53,13 +54,6 @@ export default interface ClubDataAccessInterface {
    * @param clubId club id
    */
   getOrganizer(clubId: string): Promise<User | null>;
-
-  /**
-   * Update the organizer of the given club.
-   * @Return the organizer object of the given club.
-   * @param clubId club id
-   */
-  updateOrganizer(clubId: string, organizerId: string): Promise<User | null>;
 
   /**
    * Get the followers of the given club.

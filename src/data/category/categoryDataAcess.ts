@@ -20,6 +20,7 @@ export default class CategoryDataAccess implements CategoryDataAccessInterface {
           select: {
             id: true,
             name: true,
+            description: true,
             organizerId: true,
             registered: true,
           },

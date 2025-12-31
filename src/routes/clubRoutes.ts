@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import ClubDataAccessObject from '../data/club/ClubDataAccessObject.js';
+import ClubDataAccessObject from '../data/club/clubDataAccessObject.js';
 import ClubController from '../controllers/clubController.js';
 
 const router = Router();

@@ -1,6 +1,7 @@
-import type UserDataAccessInterface from './UserDataAccessInterface.js';
+import type UserDataAccessInterface from './userDataAccessInterface.js';
 import type { User } from '../../models/UserModel.js';
 import type { Club } from '../../models/ClubModel.js';
+import type { CreateUserData, UpdateUserData } from './UserInputData.js';
 import prisma from '../../config/client.js';
 
 export default class UserDataAccessObject implements UserDataAccessInterface {
@@ -9,17 +10,24 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
    * @param user JSON object with user data
    * @returns the new user object
    */
-  async createUser(user: User) {
+  async createUser(userData: CreateUserData) {
     const newUser = await prisma.user.create({
-      data: {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-        username: user.username,
-      },
+      data: userData,
     });
     return newUser;
+  }
+
+  /**
+   * Update the user with the given userId with the new data.
+   * @param userId the id of user to be updated
+   * @param newData the new updated data for user
+   */
+  async updateUser(userId: string, newData: UpdateUserData) {
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: newData,
+    });
+    return updatedUser;
   }
 
   /**
@@ -27,17 +35,7 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
    * @returns all of the user objects in the database
    */
   async getAllUsers() {
-    const users = await prisma.user.findMany({
-      where: {},
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        username: true,
-        phoneNumber: true,
-      },
-    });
+    const users = await prisma.user.findMany({});
     return users;
   }
 
@@ -48,14 +46,6 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
   async getUsersById(userIds: string[]) {
     const users: User[] = await prisma.user.findMany({
       where: { id: { in: userIds } },
-      select: {
-        id: true,
-        username: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        phoneNumber: true,
-      },
     });
     return users;
   }
@@ -65,17 +55,9 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
    * @param userId the id of the user to return.
    * @returns the user object
    */
-  async getUserById(userId: string) {
+  async getUserById(userId: string): Promise<User | null> {
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: {
-        id: true,
-        username: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        phoneNumber: true,
-      },
     });
     return user;
   }
@@ -88,14 +70,6 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
   async getUserByEmail(email: string) {
     const user = await prisma.user.findUnique({
       where: { email: email },
-      select: {
-        id: true,
-        username: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        phoneNumber: true,
-      },
     });
     return user;
   }
@@ -108,14 +82,6 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
   async getUserByPhone(phoneNum: string) {
     const user = await prisma.user.findUnique({
       where: { phoneNumber: phoneNum },
-      select: {
-        id: true,
-        username: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        phoneNumber: true,
-      },
     });
     return user;
   }
@@ -128,14 +94,6 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
   async getUserByUsername(username: string) {
     const user = await prisma.user.findUnique({
       where: { username: username },
-      select: {
-        id: true,
-        username: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        phoneNumber: true,
-      },
     });
     return user;
   }
@@ -153,6 +111,7 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
           select: {
             id: true,
             name: true,
+            description: true,
             organizerId: true,
             registered: true,
           },
@@ -167,15 +126,9 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
    * @param userId the id of the user
    * @returns the club objects
    */
-  async getOrganizingClubs(userId: string) {
+  async getOrganizingClubs(userId: string): Promise<Club[]> {
     const clubs = await prisma.club.findMany({
       where: { organizerId: userId },
-      select: {
-        id: true,
-        name: true,
-        organizerId: true,
-        registered: true,
-      },
     });
     return clubs;
   }
@@ -192,27 +145,6 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
       },
     });
     return !(res == null);
-  }
-
-  /**
-   * Update the user with the given userId with the new data.
-   * @param userId the id of user to be updated
-   * @param newData the new updated data for user
-   */
-  async updateUser(userId: string, newData: Partial<User>) {
-    const updatedUser = await prisma.user.update({
-      where: { id: userId },
-      data: newData,
-      select: {
-        id: true,
-        username: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        phoneNumber: true,
-      },
-    });
-    return updatedUser;
   }
 
   /**
@@ -254,14 +186,7 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
         clubId: clubId,
       },
       select: {
-        club: {
-          select: {
-            id: true,
-            name: true,
-            organizerId: true,
-            registered: true,
-          },
-        },
+        club: true,
       },
     });
     return clubFollowing.club;
@@ -280,14 +205,7 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
         },
       },
       select: {
-        club: {
-          select: {
-            id: true,
-            name: true,
-            organizerId: true,
-            registered: true,
-          },
-        },
+        club: true,
       },
     });
     return deletedFollowing.club;

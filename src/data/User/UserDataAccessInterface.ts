@@ -1,5 +1,6 @@
 import type { User } from '../../models/UserModel.js';
 import type { Club } from '../../models/ClubModel.js';
+import type { CreateUserData, UpdateUserData } from './UserInputData.js';
 
 export default interface UserDataAccessInterface {
   /**
@@ -7,7 +8,7 @@ export default interface UserDataAccessInterface {
    * @param user JSON object with user data
    * @returns the new user object
    */
-  createUser(data: Partial<User>): Promise<User | null>;
+  createUser(data: CreateUserData): Promise<User | null>;
 
   /**
    * Read all users
@@ -68,7 +69,7 @@ export default interface UserDataAccessInterface {
    * @param userId the id of user to be updated
    * @param newData the new updated data for user
    */
-  updateUser(userId: string, data: Partial<User>): Promise<User>;
+  updateUser(userId: string, data: UpdateUserData): Promise<User>;
 
   /**
    * Update the user's organizing clubs with the new club.

@@ -1,4 +1,4 @@
-export interface CreateEventInputData {
+export interface CreateEventData {
   name: string;
   description: string;
   location: string;
@@ -6,7 +6,7 @@ export interface CreateEventInputData {
   clubId: string;
 }
 
-export interface UpdateEventInputData {
+export interface UpdateEventData {
   name?: string;
   description?: string;
   location?: string;

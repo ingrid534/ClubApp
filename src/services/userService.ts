@@ -1,6 +1,6 @@
 import type { Club } from '../models/ClubModel.js';
 import type { User } from '../models/UserModel.js';
-import type UserDataAccessInterface from '../data/user/UserDataAccessInterface.js';
+import type UserDataAccessInterface from '../data/user/userDataAccessInterface.js';
 
 export default class UserService {
   private userDao: UserDataAccessInterface;

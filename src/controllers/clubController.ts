@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import type ClubDataAccessInterface from '../data/club/ClubDataAccessInterface.js';
+import type ClubDataAccessInterface from '../data/club/clubDataAccessInterface.js';
 import type { Club } from '../models/ClubModel.js';
 import type { Event } from '../models/EventModel.js';
 import type { User } from '../models/UserModel.js';

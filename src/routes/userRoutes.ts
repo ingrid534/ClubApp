@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import UserDataAccessObject from '../data/user/UserDataAccessObject.js';
+import UserDataAccessObject from '../data/user/userDataAccessObject.js';
 import UserController from '../controllers/userController.js';
 
 // not sure if i should be importing prisma here
