@@ -1,5 +1,9 @@
 import type { Club } from '../models/ClubModel.js';
 import type { User } from '../models/UserModel.js';
+import type {
+  CreateUserData,
+  UpdateUserData,
+} from '../data/user/UserInputData.js';
 import type UserDataAccessInterface from '../data/user/userDataAccessInterface.js';
 
 export default class UserService {
@@ -22,13 +26,37 @@ export default class UserService {
     return user;
   }
 
+  async createUser(userData: CreateUserData): Promise<User> {
+    const user: User | null = await this.userDao.createUser(userData);
+    if (!user) {
+      throw new Error('Failed to create user.');
+    }
+    return user;
+  }
+
+  async updateUser(userId: string, userData: UpdateUserData): Promise<User> {
+    const user: User | null = await this.userDao.updateUser(userId, userData);
+    if (!user) {
+      throw new Error('Failed to update user.');
+    }
+    return user;
+  }
+
+  async deleteUser(userId: string): Promise<User> {
+    const user: User | null = await this.userDao.deleteUser(userId);
+    if (!user) {
+      throw new Error('Failed to delete user.');
+    }
+    return user;
+  }
+
   async getFollowingClubs(userId: string): Promise<Club[]> {
-    const clubs: Club[] | null = await this.userDao.getFollowingClubs(userId);
+    const clubs: Club[] = await this.userDao.getFollowingClubs(userId);
     return clubs;
   }
 
   async getOrganizingClubs(userId: string): Promise<Club[]> {
-    const clubs: Club[] | null = await this.userDao.getOrganizingClubs(userId);
+    const clubs: Club[] = await this.userDao.getOrganizingClubs(userId);
     return clubs;
   }
 
@@ -53,21 +81,5 @@ export default class UserService {
   async deleteClubFollowing(userId: string, clubId: string): Promise<Club> {
     const club = this.userDao.deleteClubFollowing(userId, clubId);
     return club;
-  }
-
-  async updateUser(userId: string, userData: Partial<User>): Promise<User> {
-    const user: User | null = await this.userDao.updateUser(userId, userData);
-    if (!user) {
-      throw new Error('Failed to update user.');
-    }
-    return user;
-  }
-
-  async deleteUser(userId: string): Promise<User> {
-    const user: User | null = await this.userDao.deleteUser(userId);
-    if (!user) {
-      throw new Error('Failed to delete user.');
-    }
-    return user;
   }
 }

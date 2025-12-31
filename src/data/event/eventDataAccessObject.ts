@@ -38,8 +38,8 @@ export default class EventDataAccessObject implements EventDataAccessInterface {
     return event;
   }
 
-  async deleteEvent(eventId: string): Promise<void> {
-    await prisma.event.delete({
+  async deleteEvent(eventId: string): Promise<Event | null> {
+    return await prisma.event.delete({
       where: { id: eventId },
     });
   }

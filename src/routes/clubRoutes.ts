@@ -1,39 +1,42 @@
 import { Router } from 'express';
+import checkJwt from '../middlewares/checkJwt.js';
 import ClubDataAccessObject from '../data/club/clubDataAccessObject.js';
+import ClubService from '../services/clubService.js';
 import ClubController from '../controllers/clubController.js';
 
-const router = Router();
+const clubRouter = Router();
 const clubDataAccessObject = new ClubDataAccessObject();
-const clubController = new ClubController(clubDataAccessObject);
+const clubService = new ClubService(clubDataAccessObject);
+const clubController = new ClubController(clubService);
 
 // create club
-router.post('/create', clubController.createClub);
+clubRouter.post('/create', clubController.createClub);
 
 // read all clubs
-router.get('/', clubController.getAllClubs);
+clubRouter.get('/', clubController.getAllClubs);
 
 // read one club by id
-router.get('/:id', clubController.getClubById);
+clubRouter.get('/:id', clubController.getClubById);
 
 // get the organizer for this club
-router.get('/:id/organizer', clubController.getOrganizer);
+clubRouter.get('/:id/organizer', clubController.getOrganizer);
 
 // update the organizer for this club
-router.put('/:id/organizer', clubController.updateOrganizer);
+clubRouter.put('/:id/organizer', clubController.updateOrganizer);
 
 // update club
-router.put('/:id', clubController.updateClub);
+clubRouter.put('/:id', clubController.updateClub);
 
 // delete club
-router.delete('/:id', clubController.deleteClub);
+clubRouter.delete('/:id', clubController.deleteClub);
 
 // get all club followers
-router.get('/:id/followers', clubController.getClubFollowing);
+clubRouter.get('/:id/followers', clubController.getClubFollowing);
 
 // check if club is registered
-router.get('/:id/registered', clubController.checkClubRegistered);
+clubRouter.get('/:id/registered', clubController.checkClubRegistered);
 
 // list all events for this club
-router.get('/:id/events', clubController.listEvents);
+clubRouter.get('/:id/events', clubController.listEvents);
 
-export default router;
+export default clubRouter;

@@ -1,15 +1,18 @@
 import type { Request, Response, NextFunction } from 'express';
-import type ClubDataAccessInterface from '../data/club/clubDataAccessInterface.js';
 import type { Club } from '../models/ClubModel.js';
 import type { Event } from '../models/EventModel.js';
 import type { User } from '../models/UserModel.js';
 import ClubService from '../services/clubService.js';
+import type {
+  CreateClubData,
+  UpdateClubData,
+} from '../data/club/ClubInputData.js';
 
 export default class ClubController {
   private clubService: ClubService;
 
-  constructor(clubDataAccessObject: ClubDataAccessInterface) {
-    this.clubService = new ClubService(clubDataAccessObject);
+  constructor(clubService: ClubService) {
+    this.clubService = clubService;
   }
 
   async getAllClubs(
@@ -31,17 +34,14 @@ export default class ClubController {
     next: NextFunction,
   ): Promise<Response | void> {
     try {
-      if (!req.body) {
-        return res.status(400).json({ error: 'Request body cannot be null.' });
-      }
-      const { name, organizerId, registered } = req.body;
-      if (!name || !organizerId || registered === undefined) {
+      const { name, description, organizerId } = req.body;
+      if (!name || !description || !organizerId) {
         return res.status(400).json({ error: 'Missing required club fields.' });
       }
-      const clubInput: Partial<Club> = {
+      const clubInput: CreateClubData = {
         name,
+        description,
         organizerId,
-        registered,
       };
 
       const club: Club = await this.clubService.createClub(clubInput);
@@ -149,10 +149,14 @@ export default class ClubController {
     }
     try {
       const id = req.params.id;
-      const updatedClub: Partial<Club> = {};
-      if (req.body.name) updatedClub.name = req.body.name;
-      if (req.body.organizerId) updatedClub.organizerId = req.body.organizerId;
-      if (req.body.registered) updatedClub.registered = req.body.registered;
+      const { name, description, organizerId, registered } = req.body;
+
+      const updatedClub: UpdateClubData = {
+        name,
+        description,
+        organizerId,
+        registered,
+      };
 
       const club: Club | null = await this.clubService.updateClub(
         id,

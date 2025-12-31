@@ -1,14 +1,17 @@
-import type UserDataAccessInterface from '../data/user/userDataAccessInterface.js';
+import type { Response, Request, NextFunction } from 'express';
 import type { Club } from '../models/ClubModel.js';
 import type { User } from '../models/UserModel.js';
 import UserService from '../services/userService.js';
-import type { Response, Request, NextFunction } from 'express';
+import type {
+  CreateUserData,
+  UpdateUserData,
+} from '../data/user/UserInputData.js';
 
 export default class UserController {
   private userService: UserService;
 
-  constructor(userDataAccessObject: UserDataAccessInterface) {
-    this.userService = new UserService(userDataAccessObject);
+  constructor(userService: UserService) {
+    this.userService = userService;
   }
 
   async getAllUsers(
@@ -43,6 +46,20 @@ export default class UserController {
     }
   }
 
+  async createUser(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    try {
+      const newUser: CreateUserData = req.body;
+      const createdUser = await this.userService.createUser(newUser);
+      res.status(201).json(createdUser);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async getFollowingClubs(
     req: Request,
     res: Response,
@@ -64,7 +81,11 @@ export default class UserController {
     }
   }
 
-  async getOrganizingClubs(req: Request, res: Response, next: NextFunction) {
+  async getOrganizingClubs(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
     if (!req.params.id) {
       return res.status(400).json({ error: 'Id cannot be null.' });
     }
@@ -91,12 +112,14 @@ export default class UserController {
     }
     try {
       const id = req.params.id;
-      const updatedUser: Partial<User> = {};
-      if (req.body.username) updatedUser.username = req.body.username;
-      if (req.body.firstName) updatedUser.firstName = req.body.firstName;
-      if (req.body.lastName) updatedUser.lastName = req.body.lastName;
-      if (req.body.email) updatedUser.email = req.body.email;
-      if (req.body.phoneNumber) updatedUser.phoneNumber = req.body.phoneNumber;
+      const { username, firstName, lastName, email, phoneNumber } = req.body;
+      const updatedUser: UpdateUserData = {
+        username,
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+      };
 
       const user: User | null = await this.userService.updateUser(
         id,
@@ -116,11 +139,8 @@ export default class UserController {
     res: Response,
     next: NextFunction,
   ): Promise<Response | void> {
-    if (!req.params.id) {
-      return res.status(400).json({ error: 'Id cannot be null.' });
-    }
-    if (!req.body.clubId) {
-      return res.status(400).json({ error: 'ClubId cannot be null.' });
+    if (!req.params.id || !req.body.clubId) {
+      return res.status(400).json({ error: 'Id and clubId are required.' });
     }
     try {
       const club: Club | null = await this.userService.addClubFollowing(
@@ -161,7 +181,6 @@ export default class UserController {
     }
   }
 
-  // TODO: idk how to check that this method actually worked?
   async addOrganizingClub(
     req: Request,
     res: Response,
@@ -174,7 +193,7 @@ export default class UserController {
     const clubId = req.body.clubId;
     try {
       await this.userService.addOrganizingClub(userId, clubId);
-      return res.status(204).send();
+      res.status(204).send();
     } catch (error) {
       next(error);
     }
@@ -198,7 +217,7 @@ export default class UserController {
         });
       }
       await this.userService.deleteOrganizingClub(userId, clubId);
-      return res.status(204).send();
+      res.status(204).send();
     } catch (error) {
       next(error);
     }

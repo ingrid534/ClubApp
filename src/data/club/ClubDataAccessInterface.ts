@@ -56,6 +56,13 @@ export default interface ClubDataAccessInterface {
   getOrganizer(clubId: string): Promise<User | null>;
 
   /**
+   * Update the organizer of the given club.
+   * @Return the organizer object of the given club.
+   * @param clubId club id
+   */
+  updateOrganizer(clubId: string, organizerId: string): Promise<User | null>;
+
+  /**
    * Get the followers of the given club.
    * @Return the list of user objects that follow the given club.
    * @param clubId club id

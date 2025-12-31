@@ -1,43 +1,45 @@
 import { Router } from 'express';
+import checkJwt from '../middlewares/checkJwt.js';
 import UserDataAccessObject from '../data/user/userDataAccessObject.js';
+import UserService from '../services/userService.js';
 import UserController from '../controllers/userController.js';
 
-// not sure if i should be importing prisma here
-const router = Router();
-const userDao = new UserDataAccessObject();
-const userController = new UserController(userDao);
+const userRouter = Router();
+const userDataAccessObject = new UserDataAccessObject();
+const userService = new UserService(userDataAccessObject);
+const userController = new UserController(userService);
 
 // create user
-router.post('/create');
+userRouter.post('/create');
 
 // read all users
-router.get('/', userController.getAllUsers);
+userRouter.get('/', userController.getAllUsers);
 
 // read one user by id
-router.get('/:id', userController.getUserById);
+userRouter.get('/:id', userController.getUserById);
 
 // get all the clubs followed by this user
-router.get('/:id/following', userController.getFollowingClubs);
+userRouter.get('/:id/following', userController.getFollowingClubs);
 
 // get all the clubs organized by this user
-router.get('/:id/organizing', userController.getOrganizingClubs);
+userRouter.get('/:id/organizing', userController.getOrganizingClubs);
 
 // update user
-router.put('/:id', userController.updateUser);
+userRouter.put('/:id', userController.updateUser);
 
 // add a club to user's following
-router.post('/:id/following', userController.addClubFollowing);
+userRouter.post('/:id/following', userController.addClubFollowing);
 
 // remove a club from user's following
-router.delete('/:id/following', userController.deleteClubFollowing);
+userRouter.delete('/:id/following', userController.deleteClubFollowing);
 
 // add a club to this user's organizing clubs
-router.patch('/:id/organizing', userController.addOrganizingClub);
+userRouter.patch('/:id/organizing', userController.addOrganizingClub);
 
 // remove a club from user's organizing clubs
-router.patch('/:id/organizing', userController.deleteOrganizingClub);
+userRouter.patch('/:id/organizing', userController.deleteOrganizingClub);
 
 // delete user
-router.delete('/:id', userController.deleteUser);
+userRouter.delete('/:id', userController.deleteUser);
 
-export default router;
+export default userRouter;

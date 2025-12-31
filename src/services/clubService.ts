@@ -2,6 +2,10 @@ import type { Club } from '../models/ClubModel.js';
 import type { User } from '../models/UserModel.js';
 import type { Event } from '../models/EventModel.js';
 import type ClubDataAccessInterface from '../data/club/clubDataAccessInterface.js';
+import type {
+  CreateClubData,
+  UpdateClubData,
+} from '../data/club/ClubInputData.js';
 
 export default class ClubService {
   private clubDao: ClubDataAccessInterface;
@@ -30,7 +34,7 @@ export default class ClubService {
     return clubs;
   }
 
-  async createClub(clubData: Partial<Club>): Promise<Club> {
+  async createClub(clubData: CreateClubData): Promise<Club> {
     const club: Club | null = await this.clubDao.createClub(clubData);
     if (!club) {
       throw new Error('Failed to create club');
@@ -38,7 +42,7 @@ export default class ClubService {
     return club;
   }
 
-  async updateClub(clubId: string, clubData: Partial<Club>): Promise<Club> {
+  async updateClub(clubId: string, clubData: UpdateClubData): Promise<Club> {
     const club: Club | null = await this.clubDao.updateClub(clubId, clubData);
     if (!club) {
       throw new Error('Failed to update club');

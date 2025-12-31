@@ -31,20 +31,20 @@ export default class CategoryDataAccess implements CategoryDataAccessInterface {
     return response.map((clubCategory) => clubCategory.club);
   }
 
-  async addClubCatagory(clubId: string, catagory: string): Promise<void> {
+  async addClubCatagory(clubId: string, catagoryId: string): Promise<void> {
     await prisma.clubCategories.create({
       data: {
         clubId: clubId,
-        categoryId: catagory,
+        categoryId: catagoryId,
       },
     });
   }
 
-  async deleteClubCatagory(clubId: string, catagory: string): Promise<void> {
+  async deleteClubCatagory(clubId: string, catagoryId: string): Promise<void> {
     await prisma.clubCategories.deleteMany({
       where: {
         clubId: clubId,
-        categoryId: catagory,
+        categoryId: catagoryId,
       },
     });
   }

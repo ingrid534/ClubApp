@@ -41,5 +41,5 @@ export default interface EventDataAccessInterface {
    *
    * @param eventId event id
    */
-  deleteEvent(eventId: string): Promise<void>;
+  deleteEvent(eventId: string): Promise<Event | null>;
 }
