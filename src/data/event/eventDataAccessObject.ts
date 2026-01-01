@@ -1,51 +1,25 @@
-import type { PrismaClient } from '../../generated/prisma/client.js';
-import type { EventDataAccessInterface } from './eventDataAccessInterface.js';
-import type {
-  CreateEventInputData,
-  UpdateEventInputData,
-} from './eventInputData.js';
-import type { Event } from '../../model/EventModel.js';
+import type EventDataAccessInterface from './eventDataAccessInterface.js';
+import type { CreateEventData, UpdateEventData } from './EventInputData.js';
+import type { Event } from '../../models/EventModel.js';
+import prisma from '../../config/client.js';
 
-export class EventDataAccessObject implements EventDataAccessInterface {
-  prisma: PrismaClient;
-
-  constructor(prismaClient: PrismaClient) {
-    this.prisma = prismaClient;
-  }
-
+export default class EventDataAccessObject implements EventDataAccessInterface {
   async getEventById(eventId: string): Promise<Event | null> {
-    const event: Event | null = await this.prisma.event.findUnique({
+    const event: Event | null = await prisma.event.findUnique({
       where: { id: eventId },
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        date: true,
-        location: true,
-        clubId: true,
-      },
     });
 
     return event;
   }
 
   async getEvents(): Promise<Event[]> {
-    const events: Event[] = await this.prisma.event.findMany({
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        date: true,
-        location: true,
-        clubId: true,
-      },
-    });
+    const events: Event[] = await prisma.event.findMany({});
 
     return events;
   }
 
-  async createEvent(eventData: CreateEventInputData): Promise<Event | null> {
-    const event: Event = await this.prisma.event.create({
+  async createEvent(eventData: CreateEventData): Promise<Event | null> {
+    const event: Event = await prisma.event.create({
       data: eventData,
     });
 
@@ -54,9 +28,9 @@ export class EventDataAccessObject implements EventDataAccessInterface {
 
   async updateEvent(
     eventId: string,
-    eventData: UpdateEventInputData,
+    eventData: UpdateEventData,
   ): Promise<Event | null> {
-    const event: Event = await this.prisma.event.update({
+    const event: Event = await prisma.event.update({
       where: { id: eventId },
       data: eventData,
     });
@@ -64,8 +38,8 @@ export class EventDataAccessObject implements EventDataAccessInterface {
     return event;
   }
 
-  async deleteEvent(eventId: string): Promise<void> {
-    await this.prisma.event.delete({
+  async deleteEvent(eventId: string): Promise<Event | null> {
+    return await prisma.event.delete({
       where: { id: eventId },
     });
   }

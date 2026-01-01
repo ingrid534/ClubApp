@@ -1,10 +1,7 @@
-import type {
-  CreateEventInputData,
-  UpdateEventInputData,
-} from './eventInputData.js';
-import type { Event } from '../../model/EventModel.js';
+import type { CreateEventData, UpdateEventData } from './EventInputData.js';
+import type { Event } from '../../models/EventModel.js';
 
-export interface EventDataAccessInterface {
+export default interface EventDataAccessInterface {
   /**
    * Get event by id
    *
@@ -25,7 +22,7 @@ export interface EventDataAccessInterface {
    * Return created event
    * @param eventData event data payload
    */
-  createEvent(eventData: CreateEventInputData): Promise<Event | null>;
+  createEvent(eventData: CreateEventData): Promise<Event | null>;
 
   /**
    * Update event
@@ -36,7 +33,7 @@ export interface EventDataAccessInterface {
    */
   updateEvent(
     eventId: string,
-    eventData: UpdateEventInputData,
+    eventData: UpdateEventData,
   ): Promise<Event | null>;
 
   /**
@@ -44,5 +41,5 @@ export interface EventDataAccessInterface {
    *
    * @param eventId event id
    */
-  deleteEvent(eventId: string): Promise<void>;
+  deleteEvent(eventId: string): Promise<Event | null>;
 }

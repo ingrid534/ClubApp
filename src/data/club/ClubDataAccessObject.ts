@@ -1,26 +1,18 @@
-import { PrismaClient } from '../../generated/prisma/client.js';
-import type { ClubDataAccessInterface } from './ClubDataAccessInterface.js';
-import type {
-  CreateClubInputData,
-  UpdateClubInputData,
-} from './ClubInputData.js';
-import type { Club } from '../../model/ClubModel.js';
-import type { User } from '../../model/UserModel.js';
-import type { Event } from '../../model/EventModel.js';
+import type ClubDataAccessInterface from './ClubDataAccessInterface.js';
+import type { Club } from '../../models/ClubModel.js';
+import type { User } from '../../models/UserModel.js';
+import type { Event } from '../../models/EventModel.js';
+import type { CreateClubData, UpdateClubData } from './ClubInputData.js';
+import prisma from '../../config/client.js';
 
-export class ClubDataAccessObject implements ClubDataAccessInterface {
-  prisma: PrismaClient;
-
-  constructor(prisma: PrismaClient) {
-    this.prisma = prisma;
-  }
-
+export default class ClubDataAccessObject implements ClubDataAccessInterface {
   async getClubById(clubId: string): Promise<Club | null> {
-    return await this.prisma.club.findUnique({
+    return await prisma.club.findUnique({
       where: { id: clubId },
       select: {
         id: true,
         name: true,
+        description: true,
         organizerId: true,
         registered: true,
       },
@@ -28,11 +20,12 @@ export class ClubDataAccessObject implements ClubDataAccessInterface {
   }
 
   async getClubsByIds(clubIds: string[]): Promise<Club[]> {
-    const response: Club[] = await this.prisma.club.findMany({
+    const response: Club[] = await prisma.club.findMany({
       where: { id: { in: clubIds } },
       select: {
         id: true,
         name: true,
+        description: true,
         organizerId: true,
         registered: true,
       },
@@ -41,10 +34,11 @@ export class ClubDataAccessObject implements ClubDataAccessInterface {
   }
 
   async getAllClubs(): Promise<Club[]> {
-    const response: Club[] = await this.prisma.club.findMany({
+    const response: Club[] = await prisma.club.findMany({
       select: {
         id: true,
         name: true,
+        description: true,
         organizerId: true,
         registered: true,
       },
@@ -52,46 +46,61 @@ export class ClubDataAccessObject implements ClubDataAccessInterface {
     return response;
   }
 
-  async createClub(data: CreateClubInputData): Promise<Club | null> {
-    // Create club
-    const club: Club = await this.prisma.club.create({
-      data: data,
+  async createClub(data: CreateClubData): Promise<Club | null> {
+    try {
+      const club: Club = await prisma.club.create({
+        data,
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          organizerId: true,
+          registered: true,
+        },
+      });
+      return club;
+    } catch (err) {
+      console.error('Error creating club:', err);
+      return null;
+    }
+  }
+
+  async updateClub(clubId: string, data: UpdateClubData): Promise<Club | null> {
+    try {
+      const club: Club = await prisma.club.update({
+        where: { id: clubId },
+        data: data,
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          organizerId: true,
+          registered: true,
+        },
+      });
+      return club;
+    } catch (err) {
+      console.error('Error updating club:', err);
+      return null;
+    }
+  }
+
+  async deleteClub(clubId: string): Promise<Club | null> {
+    const deletedClub = await prisma.club.delete({
+      where: { id: clubId },
       select: {
         id: true,
         name: true,
+        description: true,
         organizerId: true,
         registered: true,
       },
     });
-    return club;
-  }
-
-  async updateClub(
-    clubId: string,
-    data: UpdateClubInputData,
-  ): Promise<Club | null> {
-    const club: Club = await this.prisma.club.update({
-      where: { id: clubId },
-      data: data,
-      select: {
-        id: true,
-        name: true,
-        organizerId: true,
-        registered: true,
-      },
-    });
-
-    return club;
-  }
-
-  async deleteClub(clubId: string): Promise<void> {
-    await this.prisma.club.delete({
-      where: { id: clubId },
-    });
+    return deletedClub;
   }
 
   async getOrganizer(clubId: string): Promise<User | null> {
-    const response = await this.prisma.club.findUnique({
+    const response = await prisma.club.findUnique({
       where: { id: clubId },
       select: {
         organizer: {
@@ -115,7 +124,7 @@ export class ClubDataAccessObject implements ClubDataAccessInterface {
     organizerId: string,
   ): Promise<User | null> {
     // update club's organizer
-    const response = await this.prisma.club.update({
+    const response = await prisma.club.update({
       where: { id: clubId },
       data: {
         organizerId: organizerId,
@@ -138,7 +147,7 @@ export class ClubDataAccessObject implements ClubDataAccessInterface {
   }
 
   async getClubFollowers(clubId: string): Promise<User[]> {
-    const response = await this.prisma.clubFollowing.findMany({
+    const response = await prisma.clubFollowing.findMany({
       where: { clubId },
       select: {
         user: {
@@ -158,7 +167,7 @@ export class ClubDataAccessObject implements ClubDataAccessInterface {
   }
 
   async checkClubRegistered(clubId: string): Promise<boolean> {
-    const response = await this.prisma.club.findUnique({
+    const response = await prisma.club.findUnique({
       where: { id: clubId },
       select: { registered: true },
     });
@@ -166,7 +175,7 @@ export class ClubDataAccessObject implements ClubDataAccessInterface {
   }
 
   async listEvents(clubId: string): Promise<Event[]> {
-    const response = await this.prisma.club.findUnique({
+    const response = await prisma.club.findUnique({
       where: { id: clubId },
       select: {
         events: {

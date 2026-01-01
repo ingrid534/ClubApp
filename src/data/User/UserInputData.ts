@@ -3,8 +3,7 @@ export interface CreateUserData {
   firstName: string;
   lastName: string;
   email: string;
-  phoneNumber: string | null;
-  passwordHash: string;
+  phoneNumber?: string;
 }
 
 export interface UpdateUserData {
@@ -13,5 +12,4 @@ export interface UpdateUserData {
   lastName?: string;
   email?: string;
   phoneNumber?: string;
-  passwordHash?: string;
 }

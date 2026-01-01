@@ -1,8 +1,8 @@
-import type { User } from '../../model/UserModel.js';
-import type { Club } from '../../model/ClubModel.js';
+import type { User } from '../../models/UserModel.js';
+import type { Club } from '../../models/ClubModel.js';
 import type { CreateUserData, UpdateUserData } from './UserInputData.js';
 
-export interface UserDataAccessInterface {
+export default interface UserDataAccessInterface {
   /**
    * Create new user.
    * @param user JSON object with user data
@@ -58,6 +58,13 @@ export interface UserDataAccessInterface {
   getOrganizingClubs(userId: string): Promise<Club[]>;
 
   /**
+   * Check whether the given user is organizing the given club.
+   * @param userId the id of the user to check
+   * @param clubId the id of the club to check
+   */
+  checkOrganizing(userId: string, clubId: string): Promise<boolean>;
+
+  /**
    * Update the user with the given userId with the new data.
    * @param userId the id of user to be updated
    * @param newData the new updated data for user
@@ -76,17 +83,25 @@ export interface UserDataAccessInterface {
    * @param userId the user to remove club from
    * @param clubId the club to remove from user's organizing clubs
    */
-  removeOrganizingClub(userId: string, clubId: string): Promise<void>;
+  deleteOrganizingClub(userId: string, clubId: string): Promise<void>;
+
+  /**
+   * Add the club associated with the given id to user's following
+   * @param userId the user to which to add club
+   * @param clubId the club to add to following
+   */
+  addClubFollowing(userId: string, clubId: string): Promise<Club>;
 
   /**
    * Delete the club associated with the given id from user's following ('unfollow' club).
    * @param userId the user from which to remove the club
+   * @param clubId the club to remove from following
    */
-  deleteClubFollowing(userId: string, clubId: string): Promise<void>;
+  deleteClubFollowing(userId: string, clubId: string): Promise<Club>;
 
   /**
    * Delete the user associated with the given id.
    * @param userId the id of user to be deleted
    */
-  deleteUser(userId: string): Promise<void>;
+  deleteUser(userId: string): Promise<User | null>;
 }

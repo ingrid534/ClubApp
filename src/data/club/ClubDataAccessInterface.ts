@@ -1,12 +1,14 @@
-import type { Club } from '../../model/ClubModel.js';
-import type { User } from '../../model/UserModel.js';
-import type { Event } from '../../model/EventModel.js';
-import type {
-  CreateClubInputData,
-  UpdateClubInputData,
-} from './ClubInputData.js';
+import type { Club } from '../../models/ClubModel.js';
+import type { User } from '../../models/UserModel.js';
+import type { Event } from '../../models/EventModel.js';
+import type { CreateClubData, UpdateClubData } from './ClubInputData.js';
 
-export interface ClubDataAccessInterface {
+export default interface ClubDataAccessInterface {
+  /**
+   * Get all clubs.
+   */
+  getAllClubs(): Promise<Club[]>;
+
   /**
    * Get club given its id.
    * @Return the club object associated with the given id.
@@ -31,20 +33,20 @@ export interface ClubDataAccessInterface {
    * Create a new club object with the given data.
    * @param data the club data to create
    */
-  createClub(data: CreateClubInputData): Promise<Club | null>;
+  createClub(data: CreateClubData): Promise<Club | null>;
 
   /**
    * Update the club object with the given data.
    * @Return the updated club object after applying the given data.
    * @param data the updated club data
    */
-  updateClub(clubId: string, data: UpdateClubInputData): Promise<Club | null>;
+  updateClub(clubId: string, data: UpdateClubData): Promise<Club | null>;
 
   /**
    * Delete the club object associated with the given id.
    * @param clubId the ID of the club being deleted
    */
-  deleteClub(clubId: string): Promise<void>;
+  deleteClub(clubId: string): Promise<Club | null>;
 
   /**
    * Get the organizer of the given club.

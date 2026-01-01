@@ -14,7 +14,6 @@ model User {
   email          String          @unique
   phoneNumber    String?         @unique
   username       String          @unique
-  passwordHash   String
   followingClubs ClubFollowing[]
   organizedClubs Club[]
 }
@@ -22,6 +21,7 @@ model User {
 model Club {
   id          String           @id @default(uuid())
   name        String           @unique
+  description String           @unique
   followers   ClubFollowing[]
   organizer   User             @relation(fields: [organizerId], references: [id])
   organizerId String
