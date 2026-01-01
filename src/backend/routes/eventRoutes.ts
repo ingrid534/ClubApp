@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import checkJwt from '../middlewares/checkJwt.js';
-import EventDataAccessObject from '../data/event/eventDataAccessObject.js';
+import EventDataAccessObject from '../data/event/EventDataAccessObject.js';
 import EventService from '../services/eventService.js';
 import EventController from '../controllers/eventController.js';
 

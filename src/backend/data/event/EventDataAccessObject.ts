@@ -1,4 +1,4 @@
-import type EventDataAccessInterface from './eventDataAccessInterface.js';
+import type EventDataAccessInterface from './EventDataAccessInterface.js';
 import type { CreateEventData, UpdateEventData } from './EventInputData.js';
 import type { Event } from '../../models/EventModel.js';
 import prisma from '../../config/client.js';
