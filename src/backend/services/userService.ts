@@ -4,7 +4,7 @@ import type {
   CreateUserData,
   UpdateUserData,
 } from '../data/user/UserInputData.js';
-import type UserDataAccessInterface from '../data/user/userDataAccessInterface.js';
+import type UserDataAccessInterface from '../data/user/UserDataAccessInterface.js';
 
 export default class UserService {
   private userDao: UserDataAccessInterface;

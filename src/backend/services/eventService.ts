@@ -1,5 +1,5 @@
 import type { Event } from '../models/EventModel.js';
-import type EventDataAccessInterface from '../data/event/eventDataAccessInterface.js';
+import type EventDataAccessInterface from '../data/event/EventDataAccessInterface.js';
 import type {
   CreateEventData,
   UpdateEventData,
