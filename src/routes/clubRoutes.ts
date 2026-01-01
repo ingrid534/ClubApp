@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import checkJwt from '../middlewares/checkJwt.js';
-import ClubDataAccessObject from '../data/club/clubDataAccessObject.js';
+import ClubDataAccessObject from '../data/club/ClubDataAccessObject.js';
 import ClubService from '../services/clubService.js';
 import ClubController from '../controllers/clubController.js';
 

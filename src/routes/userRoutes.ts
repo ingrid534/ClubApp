@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import checkJwt from '../middlewares/checkJwt.js';
-import UserDataAccessObject from '../data/user/userDataAccessObject.js';
+import UserDataAccessObject from '../data/user/UserDataAccessObject.js';
 import UserService from '../services/userService.js';
 import UserController from '../controllers/userController.js';
 
@@ -10,7 +10,7 @@ const userService = new UserService(userDataAccessObject);
 const userController = new UserController(userService);
 
 // create user
-userRouter.post('/create');
+userRouter.post('/create', userController.createUser);
 
 // read all users
 userRouter.get('/', userController.getAllUsers);
