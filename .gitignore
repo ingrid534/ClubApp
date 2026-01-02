@@ -12,11 +12,9 @@ node_modules
 # Dependencies
 /node_modules
 
-# TypeScript build output
+# TypeSicript build output
 /dist
-
-# OS generated files
-.DS_Store
+/build
 
 # Test coverage
 /coverage
