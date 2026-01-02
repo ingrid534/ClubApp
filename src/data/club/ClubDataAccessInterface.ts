@@ -5,11 +5,6 @@ import type { CreateClubData, UpdateClubData } from './ClubInputData.js';
 
 export default interface ClubDataAccessInterface {
   /**
-   * Get all clubs.
-   */
-  getAllClubs(): Promise<Club[]>;
-
-  /**
    * Get club given its id.
    * @Return the club object associated with the given id.
    * @param clubId the ID of the club to be retrieved.
@@ -27,7 +22,7 @@ export default interface ClubDataAccessInterface {
    * Get all clubs
    * @returns an array of all club objects
    */
-  getAllClubs(): Promise<Club[]>;
+  getAllClubs(): Promise<Club[] | null>;
 
   /**
    * Create a new club object with the given data.
@@ -67,7 +62,7 @@ export default interface ClubDataAccessInterface {
    * @Return the list of user objects that follow the given club.
    * @param clubId club id
    */
-  getClubFollowers(clubId: string): Promise<User[]>;
+  getClubFollowers(clubId: string): Promise<User[] | null>;
 
   /**
    * Return whether this club is registered.
@@ -80,5 +75,5 @@ export default interface ClubDataAccessInterface {
    *
    * @param clubId club id
    */
-  listEvents(clubId: string): Promise<Event[]>;
+  listEvents(clubId: string): Promise<Event[] | null>;
 }

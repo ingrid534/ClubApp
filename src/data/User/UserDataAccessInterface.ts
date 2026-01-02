@@ -69,7 +69,7 @@ export default interface UserDataAccessInterface {
    * @param userId the id of user to be updated
    * @param newData the new updated data for user
    */
-  updateUser(userId: string, data: UpdateUserData): Promise<User>;
+  updateUser(userId: string, data: UpdateUserData): Promise<User | null>;
 
   /**
    * Update the user's organizing clubs with the new club.
@@ -90,14 +90,14 @@ export default interface UserDataAccessInterface {
    * @param userId the user to which to add club
    * @param clubId the club to add to following
    */
-  addClubFollowing(userId: string, clubId: string): Promise<Club>;
+  addClubFollowing(userId: string, clubId: string): Promise<Club | null>;
 
   /**
    * Delete the club associated with the given id from user's following ('unfollow' club).
    * @param userId the user from which to remove the club
    * @param clubId the club to remove from following
    */
-  deleteClubFollowing(userId: string, clubId: string): Promise<Club>;
+  deleteClubFollowing(userId: string, clubId: string): Promise<Club | null>;
 
   /**
    * Delete the user associated with the given id.

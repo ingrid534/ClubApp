@@ -3,6 +3,7 @@ import type { User } from '../../models/UserModel.js';
 import type { Club } from '../../models/ClubModel.js';
 import type { CreateUserData, UpdateUserData } from './UserInputData.js';
 import prisma from '../../config/client.js';
+import { handlePrismaError } from '../../utils/prismaErrors.js';
 
 export default class UserDataAccessObject implements UserDataAccessInterface {
   /**
@@ -11,10 +12,15 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
    * @returns the new user object
    */
   async createUser(userData: CreateUserData) {
-    const newUser = await prisma.user.create({
-      data: userData,
-    });
-    return newUser;
+    try {
+      const newUser = await prisma.user.create({
+        data: userData,
+      });
+      return newUser;
+    } catch (err) {
+      handlePrismaError(err, 'UserDataAccessObject.createUser');
+      return null;
+    }
   }
 
   /**
@@ -23,11 +29,16 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
    * @param newData the new updated data for user
    */
   async updateUser(userId: string, newData: UpdateUserData) {
-    const updatedUser = await prisma.user.update({
-      where: { id: userId },
-      data: newData,
-    });
-    return updatedUser;
+    try {
+      const updatedUser = await prisma.user.update({
+        where: { id: userId },
+        data: newData,
+      });
+      return updatedUser;
+    } catch (err) {
+      handlePrismaError(err, 'UserDataAccessObject.updateUser');
+      return null;
+    }
   }
 
   /**
@@ -35,8 +46,13 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
    * @returns all of the user objects in the database
    */
   async getAllUsers() {
-    const users = await prisma.user.findMany({});
-    return users;
+    try {
+      const users = await prisma.user.findMany({});
+      return users;
+    } catch (err) {
+      handlePrismaError(err, 'UserDataAccessObject.getAllUsers');
+      return [];
+    }
   }
 
   /**
@@ -44,10 +60,15 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
    * @param userIds the array of user ids
    */
   async getUsersById(userIds: string[]) {
-    const users: User[] = await prisma.user.findMany({
-      where: { id: { in: userIds } },
-    });
-    return users;
+    try {
+      const users: User[] = await prisma.user.findMany({
+        where: { id: { in: userIds } },
+      });
+      return users;
+    } catch (err) {
+      handlePrismaError(err, 'UserDataAccessObject.getUsersById');
+      return [];
+    }
   }
 
   /**
@@ -56,10 +77,15 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
    * @returns the user object
    */
   async getUserById(userId: string): Promise<User | null> {
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-    });
-    return user;
+    try {
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+      });
+      return user;
+    } catch (err) {
+      handlePrismaError(err, 'UserDataAccessObject.getUserById');
+      return null;
+    }
   }
 
   /**
@@ -68,10 +94,15 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
    * @returns the user object
    */
   async getUserByEmail(email: string) {
-    const user = await prisma.user.findUnique({
-      where: { email: email },
-    });
-    return user;
+    try {
+      const user = await prisma.user.findUnique({
+        where: { email: email },
+      });
+      return user;
+    } catch (err) {
+      handlePrismaError(err, 'UserDataAccessObject.getUserByEmail');
+      return null;
+    }
   }
 
   /**
@@ -80,10 +111,15 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
    * @returns the user object
    */
   async getUserByPhone(phoneNum: string) {
-    const user = await prisma.user.findUnique({
-      where: { phoneNumber: phoneNum },
-    });
-    return user;
+    try {
+      const user = await prisma.user.findUnique({
+        where: { phoneNumber: phoneNum },
+      });
+      return user;
+    } catch (err) {
+      handlePrismaError(err, 'UserDataAccessObject.getUserByPhone');
+      return null;
+    }
   }
 
   /**
@@ -92,10 +128,15 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
    * @returns the user object
    */
   async getUserByUsername(username: string) {
-    const user = await prisma.user.findUnique({
-      where: { username: username },
-    });
-    return user;
+    try {
+      const user = await prisma.user.findUnique({
+        where: { username: username },
+      });
+      return user;
+    } catch (err) {
+      handlePrismaError(err, 'UserDataAccessObject.getUserByUsername');
+      return null;
+    }
   }
 
   /**
@@ -104,21 +145,26 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
    * @returns the club ids
    */
   async getFollowingClubs(userId: string) {
-    const clubs = await prisma.clubFollowing.findMany({
-      where: { userId: userId },
-      select: {
-        club: {
-          select: {
-            id: true,
-            name: true,
-            description: true,
-            organizerId: true,
-            registered: true,
+    try {
+      const clubs = await prisma.clubFollowing.findMany({
+        where: { userId: userId },
+        select: {
+          club: {
+            select: {
+              id: true,
+              name: true,
+              description: true,
+              organizerId: true,
+              registered: true,
+            },
           },
         },
-      },
-    });
-    return clubs.map((clubFollowing) => clubFollowing.club);
+      });
+      return clubs.map((clubFollowing) => clubFollowing.club);
+    } catch (err) {
+      handlePrismaError(err, 'UserDataAccessObject.getFollowingClubs');
+      return [];
+    }
   }
 
   /**
@@ -127,24 +173,34 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
    * @returns the club objects
    */
   async getOrganizingClubs(userId: string): Promise<Club[]> {
-    const clubs = await prisma.club.findMany({
-      where: { organizerId: userId },
-    });
-    return clubs;
+    try {
+      const clubs = await prisma.club.findMany({
+        where: { organizerId: userId },
+      });
+      return clubs;
+    } catch (err) {
+      handlePrismaError(err, 'UserDataAccessObject.getOrganizingClubs');
+      return [];
+    }
   }
 
   async checkOrganizing(userId: string, clubId: string): Promise<boolean> {
-    const res = await prisma.user.findFirst({
-      where: {
-        id: userId,
-        organizedClubs: {
-          some: {
-            id: clubId,
+    try {
+      const res = await prisma.user.findFirst({
+        where: {
+          id: userId,
+          organizedClubs: {
+            some: {
+              id: clubId,
+            },
           },
         },
-      },
-    });
-    return !(res == null);
+      });
+      return !(res == null);
+    } catch (err) {
+      handlePrismaError(err, 'UserDataAccessObject.checkOrganizing');
+      return false;
+    }
   }
 
   /**
@@ -153,14 +209,18 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
    * @param clubId the id of the new club user is organizing
    */
   async addOrganizingClub(userId: string, clubId: string): Promise<void> {
-    await prisma.user.update({
-      where: { id: userId },
-      data: {
-        organizedClubs: {
-          connect: { id: clubId },
+    try {
+      await prisma.user.update({
+        where: { id: userId },
+        data: {
+          organizedClubs: {
+            connect: { id: clubId },
+          },
         },
-      },
-    });
+      });
+    } catch (err) {
+      handlePrismaError(err, 'UserDataAccessObject.addOrganizingClub');
+    }
   }
 
   /**
@@ -169,46 +229,63 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
    * @param clubId the club to remove from user's organizing clubs
    */
   async deleteOrganizingClub(userId: string, clubId: string): Promise<void> {
-    await prisma.user.update({
-      where: { id: userId },
-      data: {
-        organizedClubs: {
-          disconnect: { id: clubId },
+    try {
+      await prisma.user.update({
+        where: { id: userId },
+        data: {
+          organizedClubs: {
+            disconnect: { id: clubId },
+          },
         },
-      },
-    });
+      });
+    } catch (err) {
+      handlePrismaError(err, 'UserDataAccessObject.deleteOrganizingClub');
+    }
   }
 
-  async addClubFollowing(userId: string, clubId: string): Promise<Club> {
-    const clubFollowing = await prisma.clubFollowing.create({
-      data: {
-        userId: userId,
-        clubId: clubId,
-      },
-      select: {
-        club: true,
-      },
-    });
-    return clubFollowing.club;
+  async addClubFollowing(userId: string, clubId: string): Promise<Club | null> {
+    try {
+      const clubFollowing = await prisma.clubFollowing.create({
+        data: {
+          userId: userId,
+          clubId: clubId,
+        },
+        select: {
+          club: true,
+        },
+      });
+      return clubFollowing.club;
+    } catch (err) {
+      handlePrismaError(err, 'UserDataAccessObject.addClubFollowing');
+      return null;
+    }
   }
 
   /**
    * Delete the club associated with the given id from user's following ('unfollow' club).
    * @param userId the user from which to remove the club
    */
-  async deleteClubFollowing(userId: string, clubId: string): Promise<Club> {
-    const deletedFollowing = await prisma.clubFollowing.delete({
-      where: {
-        userId_clubId: {
-          userId: userId,
-          clubId: clubId,
+  async deleteClubFollowing(
+    userId: string,
+    clubId: string,
+  ): Promise<Club | null> {
+    try {
+      const deletedFollowing = await prisma.clubFollowing.delete({
+        where: {
+          userId_clubId: {
+            userId: userId,
+            clubId: clubId,
+          },
         },
-      },
-      select: {
-        club: true,
-      },
-    });
-    return deletedFollowing.club;
+        select: {
+          club: true,
+        },
+      });
+      return deletedFollowing.club;
+    } catch (err) {
+      handlePrismaError(err, 'UserDataAccessObject.deleteClubFollowing');
+      return null;
+    }
   }
 
   /**
@@ -217,11 +294,16 @@ export default class UserDataAccessObject implements UserDataAccessInterface {
    * @returns the deleted user object (mostly for debugging)
    */
   async deleteUser(userId: string): Promise<User | null> {
-    const deletedUser = await prisma.user.delete({
-      where: {
-        id: userId,
-      },
-    });
-    return deletedUser;
+    try {
+      const deletedUser = await prisma.user.delete({
+        where: {
+          id: userId,
+        },
+      });
+      return deletedUser;
+    } catch (err) {
+      handlePrismaError(err, 'UserDataAccessObject.deleteUser');
+      return null;
+    }
   }
 }

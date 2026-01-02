@@ -81,10 +81,10 @@ export default class ClubController {
       return res.status(400).json({ error: 'Id cannot be null.' });
     }
     try {
-      const users: User[] = await this.clubService.getClubFollowing(
+      const users: User[] | null = await this.clubService.getClubFollowing(
         req.params.id,
       );
-      if (!users) {
+      if (users === null) {
         return res.status(404).json({ error: 'Club not found.' });
       }
       res.json(users);
@@ -221,7 +221,10 @@ export default class ClubController {
       return res.status(400).json({ error: 'Id cannot be null.' });
     }
     try {
-      const events: Event[] = await this.clubService.listEvents(id);
+      const events: Event[] | null = await this.clubService.listEvents(id);
+      if (events === null) {
+        return res.status(404).json({ error: 'Club not found.' });
+      }
       res.status(200).json(events);
     } catch (error) {
       next(error);

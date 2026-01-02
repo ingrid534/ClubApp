@@ -13,8 +13,8 @@ export default class ClubService {
     this.clubDao = clubDao;
   }
 
-  async getAllClubs(): Promise<Club[]> {
-    const clubs: Club[] = await this.clubDao.getAllClubs();
+  async getAllClubs(): Promise<Club[] | null> {
+    const clubs: Club[] | null = await this.clubDao.getAllClubs();
     return clubs;
   }
 
@@ -77,7 +77,7 @@ export default class ClubService {
     return user;
   }
 
-  async getClubFollowing(clubId: string): Promise<User[]> {
+  async getClubFollowing(clubId: string): Promise<User[] | null> {
     const users: User[] | null = await this.clubDao.getClubFollowers(clubId);
     return users;
   }
@@ -88,8 +88,8 @@ export default class ClubService {
     return isRegistered;
   }
 
-  async listEvents(clubId: string): Promise<Event[]> {
-    const events: Event[] = await this.clubDao.listEvents(clubId);
+  async listEvents(clubId: string): Promise<Event[] | null> {
+    const events: Event[] | null = await this.clubDao.listEvents(clubId);
     return events;
   }
 }

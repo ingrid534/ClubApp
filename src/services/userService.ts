@@ -4,7 +4,7 @@ import type {
   CreateUserData,
   UpdateUserData,
 } from '../data/user/UserInputData.js';
-import type UserDataAccessInterface from '../data/user/userDataAccessInterface.js';
+import type UserDataAccessInterface from '../data/user/UserDataAccessInterface.js';
 
 export default class UserService {
   private userDao: UserDataAccessInterface;
@@ -13,8 +13,8 @@ export default class UserService {
     this.userDao = userDao;
   }
 
-  async getAllUsers(): Promise<User[]> {
-    const users: User[] = await this.userDao.getAllUsers();
+  async getAllUsers(): Promise<User[] | null> {
+    const users: User[] | null = await this.userDao.getAllUsers();
     return users;
   }
 
@@ -73,12 +73,15 @@ export default class UserService {
     await this.userDao.deleteOrganizingClub(userId, clubId);
   }
 
-  async addClubFollowing(userId: string, clubId: string): Promise<Club> {
+  async addClubFollowing(userId: string, clubId: string): Promise<Club | null> {
     const club = this.userDao.addClubFollowing(userId, clubId);
     return club;
   }
 
-  async deleteClubFollowing(userId: string, clubId: string): Promise<Club> {
+  async deleteClubFollowing(
+    userId: string,
+    clubId: string,
+  ): Promise<Club | null> {
     const club = this.userDao.deleteClubFollowing(userId, clubId);
     return club;
   }
