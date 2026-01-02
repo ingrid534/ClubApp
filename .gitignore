@@ -5,8 +5,7 @@
 !.env.example
 
 # TypeScript build output
-/dist
-/backend/dist
+**/dist
 
 # OS generated files
 
@@ -14,7 +13,7 @@
 .vscode/
 
 # Prisma generated
-/backend/src/generated/
+**/src/generated/
 
 # npm and yarn debug logs
 npm-debug.log*
@@ -24,7 +23,7 @@ yarn-error.log*
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+**/node_modules
 /.pnp
 .pnp.*
 .yarn/*
@@ -32,18 +31,17 @@ yarn-error.log*
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-src/frontend/node_modules
 
 # testing
 /coverage
 
 # next.js
-/.next/
-/out/
-/src/frontend/.next/
+**/.next/
+**/out/
 
 # production
-/build
+**/build
+build/
 
 *.pem
 
