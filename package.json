@@ -17,7 +17,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
-    "dev": "tsc -w & node --watch dist/server.js",
+    "dev": "npx prisma generate && tsc -w && node --watch dist/server.js",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "prisma:generate": "prisma generate",

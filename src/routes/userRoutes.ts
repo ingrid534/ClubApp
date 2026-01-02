@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import checkJwt from '../middlewares/checkJwt.js';
-import UserDataAccessObject from '../data/user/UserDataAccessObject.js';
+import UserDataAccessObject from '../data/user/userDataAccessObject.js';
 import UserService from '../services/userService.js';
 import UserController from '../controllers/userController.js';
 
