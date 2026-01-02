@@ -6,6 +6,7 @@
 
 # TypeScript build output
 /dist
+/backend/dist
 
 # OS generated files
 
@@ -13,7 +14,7 @@
 .vscode/
 
 # Prisma generated
-src/backend/generated/
+/backend/src/generated/
 
 # npm and yarn debug logs
 npm-debug.log*
